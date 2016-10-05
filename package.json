@@ -1,0 +1,48 @@
+{
+  "name": "ovirt-ui-components",
+  "version": "0.0.0",
+  "description": "Reusable components for Open Virtualization UIs",
+  "main": "dist/ovirt-ui-components.js",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "webpack",
+    "prebuild": "npm run test",
+    "test": "eslint src",
+    "prepublish": "npm run build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/matobet/ovirt-ui-components.git"
+  },
+  "keywords": [
+    "oVirt",
+    "UI",
+    "Components"
+  ],
+  "author": "Martin Betak",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/matobet/ovirt-ui-components/issues"
+  },
+  "homepage": "https://github.com/matobet/ovirt-ui-components#readme",
+  "devDependencies": {
+    "babel-cli": "~6.16.0",
+    "babel-core": "~6.17.0",
+    "babel-eslint": "~7.0.0",
+    "babel-loader": "~6.2.5",
+    "babel-preset-es2015": "~6.16.0",
+    "babel-preset-react": "~6.16.0",
+    "eslint": "~3.7.1",
+    "eslint-config-standard": "~6.2.0",
+    "eslint-config-standard-jsx": "~3.2.0",
+    "eslint-config-standard-react": "~4.2.0",
+    "eslint-plugin-promise": "~2.0.1",
+    "eslint-plugin-react": "~6.3.0",
+    "eslint-plugin-standard": "~2.0.1",
+    "react": "~15.3.2",
+    "react-dom": "~15.3.2",
+    "webpack": "~1.13.2"
+  }
+}
