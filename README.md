@@ -1,4 +1,5 @@
 # oVirt UI Components
+[![Build Status](https://travis-ci.org/matobet/ovirt-ui-components.svg?branch=master)](https://travis-ci.org/matobet/ovirt-ui-components)
 
 Reusable components for UIs related to the [oVirt](http://ovirt.org) project.
 
