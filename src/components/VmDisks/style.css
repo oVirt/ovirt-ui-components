@@ -1,0 +1,8 @@
+.disks-ul {
+    list-style-type: none;
+    display: inline;
+}
+
+.smaller {
+    font-size: 75%;
+}

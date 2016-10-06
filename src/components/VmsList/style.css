@@ -1,0 +1,16 @@
+.move-left { /* go to the left */
+    transition: transform 1s;
+    transform: scale(0.5) perspective(200px) translateY(50px) rotateY(10deg);
+}
+
+.move-left-remove {/* go back to normal */
+    transition: transform 1s;
+    transform: translateZ(0) translateX(0) rotateY(0deg);
+}
+
+.card-pf-icon {
+    overflow: hidden;
+    display: block;
+    height: 106px;
+    margin: 0 auto;
+}
