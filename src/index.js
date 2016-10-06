@@ -1,1 +1,1 @@
-export { default as Dummy } from './components/Dummy'
+export * from './components/dummy/Dummy'

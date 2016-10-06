@@ -3,7 +3,7 @@ function external (root, module) {
     root,
     commonjs: module,
     commonjs2: module,
-    amd: module
+    amd: module,
   }
 }
 
@@ -20,7 +20,8 @@ module.exports = {
   module: {
     loaders: [
       { test: /\.js$/, loader: 'babel', exclude: /node_modules/ },
-    ]
+      { test: /\.css$/, loader: 'style!css?modules!postcss' },
+    ],
   },
   resolve: {
     extensions: ['', '.js'],
