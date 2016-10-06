@@ -1,0 +1,12 @@
+.usermsgs-unread { /* TODO: rename */
+    color: red;
+    font-weight: bold;
+}
+
+.usermsgs-allread {
+    /*color: white;*/
+}
+
+.user-name {
+
+}
