@@ -21,7 +21,7 @@ ReactDOM.render(
 To facilitate rapid development with instant feedback a *showcase* application for development
 is provided in the `/showcase` directory.
 
-`npm run dev` will run a `webpack-dev-server` with live reloading of
+`npm start` will run a `webpack-dev-server` with live reloading of
 all components that serves this showcase application.
 
 ## Build
