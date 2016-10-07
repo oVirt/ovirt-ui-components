@@ -2,8 +2,8 @@ import React, { Component } from 'react'
 
 import style from './style.css'
 
-import {logDebug, formatTwoDigits} from '../../helpers'
-import {clearUserMessages} from '../../vmactions'
+import { logDebug, formatTwoDigits } from '../../helpers'
+import { clearUserMessages } from '../../vm-actions'
 
 class UserMessage extends Component {
   renderTime (time) {
@@ -12,22 +12,24 @@ class UserMessage extends Component {
   }
 
   render () {
-    const {record} = this.props
+    const { record } = this.props
     logDebug(`rendering record: ${JSON.stringify(record)}`)
 
     // TODO: render record.type
-    return (<li className={'list-group-item' + style.crop} title={record.message} data-toggle='tooltip'>
-      {this.renderTime(record.time)}&nbsp;{record.message}
-    </li>)
+    return (
+      <li className={'list-group-item' + style.crop} title={record.message} data-toggle='tooltip'>
+        {this.renderTime(record.time)}&nbsp;{record.message}
+      </li>
+    )
   }
 }
 UserMessage.propTypes = {
-  record: React.PropTypes.object.isRequired
+  record: React.PropTypes.object.isRequired,
 }
 
 class VmUserMessages extends Component {
   render () {
-    const {userMessages, dispatch} = this.props
+    const { userMessages, dispatch } = this.props
 
     const onClearMessages = () => dispatch(clearUserMessages())
 
@@ -44,7 +46,7 @@ class VmUserMessages extends Component {
 }
 VmUserMessages.propTypes = {
   dispatch: React.PropTypes.func.isRequired,
-  userMessages: React.PropTypes.object.isRequired
+  userMessages: React.PropTypes.object.isRequired,
 }
 
 export default VmUserMessages

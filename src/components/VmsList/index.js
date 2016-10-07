@@ -1,19 +1,19 @@
 import React, { Component } from 'react'
 
-/* eslint-disable no-unused-vars */
 import style from './style.css'
 
-import VmIcon from '../VmIcon/index'
-import VmStatusIcon from '../VmStatusIcon/index'
+import ContainerFluid from '../ContainerFluid'
+import VmIcon from '../VmIcon'
+import VmStatusIcon from '../VmStatusIcon'
 
-import {selectVmDetail, shutdownVm, restartVm, startVm, getConsole} from '../../vmactions'
-import {canRestart, canShutdown, canStart, canConsole} from '../../vmstatus'
+import { selectVmDetail, shutdownVm, restartVm, startVm, getConsole } from '../../vm-actions'
+import { canRestart, canShutdown, canStart, canConsole } from '../../vm-status'
 
 /**
  * Data are fetched but no VM is available to display
  */
 class NoVm extends Component {
-  render () { // TODO
+  render () {
     return (
       <div className='blank-slate-pf'>
         <div className='blank-slate-pf-icon'>
@@ -85,7 +85,7 @@ class LoadingData extends Component {
  * List of actions depends on the VM state.
  */
 class VmActions extends Component {
-  button ({className, tooltip = '', onClick}) {
+  button ({ className, tooltip = '', onClick }) {
     return (
       <div className='card-pf-item'>
         <span className={className} data-toggle='tooltip' data-placement='left' title={tooltip} onClick={onClick} />
@@ -95,20 +95,20 @@ class VmActions extends Component {
 
   emptyAction (state) {
     if (!canConsole(state) && !canShutdown(state) && !canRestart(state) && !canStart(state)) {
-      return (<div className='card-pf-item' />)
+      return <div className='card-pf-item' />
     }
   }
 
   render () {
-    const {vm, dispatch} = this.props
+    const { vm, dispatch } = this.props
 
     const vmId = vm.get('id')
     const status = vm.get('status')
 
-    const onGetConsole = () => dispatch(getConsole({vm}))
-    const onShutdown = () => dispatch(shutdownVm({vmId, force: false}))
-    const onRestart = () => dispatch(restartVm({vmId, force: false}))
-    const onStart = () => dispatch(startVm({vmId}))
+    const onGetConsole = () => dispatch(getConsole({ vm }))
+    const onShutdown = () => dispatch(shutdownVm({ vmId, force: false }))
+    const onRestart = () => dispatch(restartVm({ vmId, force: false }))
+    const onStart = () => dispatch(startVm({ vmId }))
 
     return (
       <div className='card-pf-items text-center'>
@@ -116,22 +116,22 @@ class VmActions extends Component {
         {canConsole(status) ? this.button({
           className: 'pficon pficon-screen',
           tooltip: 'Click to get console',
-          onClick: onGetConsole
+          onClick: onGetConsole,
         }) : ''}
         {canShutdown(status) ? this.button({
           className: 'fa fa-power-off',
           tooltip: 'Click to shut down the VM',
-          onClick: onShutdown
+          onClick: onShutdown,
         }) : ''}
         {canRestart(status) ? this.button({
           className: 'fa fa-refresh',
           tooltip: 'Click to reboot the VM',
-          onClick: onRestart
+          onClick: onRestart,
         }) : ''}
         {canStart(status) ? this.button({
           className: 'fa fa-angle-double-right',
           tooltip: 'Click to start the VM',
-          onClick: onStart
+          onClick: onStart,
         }) : ''}
       </div>
     )
@@ -139,12 +139,12 @@ class VmActions extends Component {
 }
 VmActions.propTypes = {
   vm: React.PropTypes.object.isRequired,
-  dispatch: React.PropTypes.func.isRequired
+  dispatch: React.PropTypes.func.isRequired,
 }
 
 class VmStatusText extends Component {
   render () {
-    const {vm} = this.props
+    const { vm } = this.props
     const lastMessage = vm.get('lastMessage')
     const status = vm.get('status')
 
@@ -160,15 +160,24 @@ class VmStatusText extends Component {
         case 'powering_up':
         case 'paused':
         case 'migrating':
-          return (<p className='card-pf-info text-center'><strong>Started On</strong>{vm.get('startTime')}</p>)
+          return (
+            <p className='card-pf-info text-center'>
+              <strong>Started On</strong>
+              {vm.get('startTime')}
+            </p>)
         default:
-          return (<p className='card-pf-info text-center'><strong>Stopped On: </strong>{vm.get('stopTime')}</p>)
+          return (
+            <p className='card-pf-info text-center'>
+              <strong>Stopped On: </strong>
+              {vm.get('stopTime')}
+            </p>
+          )
       }
     }
   }
 }
 VmStatusText.propTypes = {
-  vm: React.PropTypes.object.isRequired
+  vm: React.PropTypes.object.isRequired,
 }
 
 /**
@@ -176,9 +185,9 @@ VmStatusText.propTypes = {
  */
 class Vm extends Component {
   render () {
-    const {vm, dispatch} = this.props
+    const { vm, dispatch } = this.props
 
-    const onSelectVm = () => dispatch(selectVmDetail({vmId: vm.get('id')}))
+    const onSelectVm = () => dispatch(selectVmDetail({ vmId: vm.get('id') }))
     const state = vm.get('status')
 
     // TODO: improve the card flip:
@@ -207,47 +216,54 @@ class Vm extends Component {
 }
 Vm.propTypes = {
   vm: React.PropTypes.object.isRequired,
-  dispatch: React.PropTypes.func.isRequired
+  dispatch: React.PropTypes.func.isRequired,
 }
 
 class VmsList extends Component {
-  renderVms ({vms, dispatch}) {
+  renderVms ({ vms, dispatch }) {
     const selectedVmId = vms.get('selected')
     const containerClass = 'container-fluid container-cards-pf ' + (selectedVmId ? style['move-left'] : style['move-left-remove'])
 
-    return (<span>
-      <div className={containerClass}>
-        <div className='row row-cards-pf'>
-          {vms.get('vms').map(vm => <Vm vm={vm} key={vm.get('id')} dispatch={dispatch} />)}
+    return (
+      <span>
+        <div className={containerClass}>
+          <div className='row row-cards-pf'>
+            {vms.get('vms').map(vm => <Vm vm={vm} key={vm.get('id')} dispatch={dispatch} />)}
+          </div>
         </div>
-      </div>
-    </span>
+      </span>
     )
   }
 
   render () {
-    const {vms, config, dispatch} = this.props
+    const { vms, config, dispatch } = this.props
     if (vms.get('vms') && !vms.get('vms').isEmpty()) {
-      return (this.renderVms({vms, dispatch}))
+      return (this.renderVms({ vms, dispatch }))
     } else if (!config.get('loginToken')) { // login is missing
-      return (<div className='container-fluid'>
-        <NoLogin />
-      </div>)
+      return (
+        <ContainerFluid>
+          <NoLogin />
+        </ContainerFluid>
+      )
     } else if (vms.get('loadInProgress')) { // data load in progress
-      return (<div className='container-fluid'>
-        <LoadingData />
-      </div>)
+      return (
+        <ContainerFluid>
+          <LoadingData />
+        </ContainerFluid>
+      )
     } else { // No VM available
-      return (<div className='container-fluid'>
-        <NoVm />
-      </div>)
+      return (
+        <ContainerFluid>
+          <NoVm />
+        </ContainerFluid>
+      )
     }
   }
 }
 VmsList.propTypes = {
   vms: React.PropTypes.object.isRequired,
   config: React.PropTypes.object.isRequired,
-  dispatch: React.PropTypes.func.isRequired
+  dispatch: React.PropTypes.func.isRequired,
 }
 
 export default VmsList

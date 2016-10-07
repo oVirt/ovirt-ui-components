@@ -1,4 +1,4 @@
-export * from './components/dummy'
+export * from './components/Dummy'
 
 export { default as VmsList } from './components/VmsList'
 export { default as VmIcon } from './components/VmIcon'
@@ -13,11 +13,9 @@ export * from './helpers'
 
 // TODO: consider prefixes or wrapping in a class, split & directory structure
 // export { default as VmActions } from './vmactions'
-export * from './vmactions'
+export * from './vm-actions'
 
 // TODO: consider prefixes or wrapping in a class
 export { default as ConfigReducer } from './reducers/config'
 export { default as UserMessages } from './reducers/userMessages'
 export { default as VmsReducer } from './reducers/vms'
-
-export { default as OvirtApi } from './ovirtapi'

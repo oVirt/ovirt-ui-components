@@ -1,8 +1,8 @@
 import Immutable from 'immutable'
 
-import {logDebug, hidePassword} from '../helpers'
+import { logDebug, hidePassword } from '../helpers'
 
-function updateOrAddVm ({state, payload: {vm}}) {
+function updateOrAddVm ({ state, payload: { vm } }) {
   const vmPredicate = vm => vm.get('id') === vm.id
   const vmIndex = state.get('vms').findIndex(vmPredicate)
   if (vmIndex < 0) {
@@ -14,7 +14,7 @@ function updateOrAddVm ({state, payload: {vm}}) {
   }
 }
 
-function updateVmIcon ({state, payload: {vmId, icon, type}}) {
+function updateVmIcon ({ state, payload: { vmId, icon, type } }) {
   // TODO: use seq
   const vmPredicate = vm => vm.get('id') === vmId
   const vm = state.get('vms').find(vmPredicate)
@@ -22,7 +22,7 @@ function updateVmIcon ({state, payload: {vmId, icon, type}}) {
   return state.update('vms', vms => vms.set(vms.findIndex(vmPredicate), updatedVm))
 }
 
-function failedExternalActionVmMessage ({state, payload}) {
+function failedExternalActionVmMessage ({ state, payload }) {
   /* Example:
    payload = {
    "message": "[Cannot run VM. There is no host that satisfies current scheduling constraints. See below for details:, The host vdsm did not satisfy internal filter CPU because it does not have enough cores to run the VM.]",
@@ -51,14 +51,14 @@ function failedExternalActionVmMessage ({state, payload}) {
  * @returns {*}
  */
 function vms (state, action) {
-  state = state || Immutable.fromJS({vms: [], selected: undefined, loadInProgress: true})
-  logDebug(`The 'vms' reducer action=${JSON.stringify(hidePassword({action}))}`)
+  state = state || Immutable.fromJS({ vms: [], selected: undefined, loadInProgress: true })
+  logDebug(`The 'vms' reducer action=${JSON.stringify(hidePassword({ action }))}`)
 
   switch (action.type) {
     case 'UPDATE_VM':
-      return updateOrAddVm({state, payload: action.payload})
+      return updateOrAddVm({ state, payload: action.payload })
     case 'UPDATE_VM_ICON':
-      return updateVmIcon({state, payload: action.payload})
+      return updateVmIcon({ state, payload: action.payload })
     case 'SELECT_VM_DETAIL':
       return state.set('selected', action.payload.vmId)
     case 'CLOSE_VM_DETAIL':
@@ -68,7 +68,7 @@ function vms (state, action) {
     case 'SET_LOAD_IN_PROGRESS':
       return state.set('loadInProgress', action.payload.value)
     case 'FAILED_EXTERNAL_ACTION': // see the userMessages() reducer
-      return failedExternalActionVmMessage({state, payload: action.payload})
+      return failedExternalActionVmMessage({ state, payload: action.payload })
     default:
       return state
   }

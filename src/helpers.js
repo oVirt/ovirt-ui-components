@@ -3,7 +3,7 @@ export function logDebug (msg) {
   console.log(msg)
 }
 
-export function hidePassword ({action, param}) {
+export function hidePassword ({ action, param }) {
   if (action) {
     if (action['payload'] && action.payload['credentials'] && action.payload.credentials['password']) {
       const hidden = JSON.parse(JSON.stringify(action))

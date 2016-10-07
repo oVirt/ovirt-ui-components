@@ -2,9 +2,9 @@ import React, { Component } from 'react'
 
 import style from './style.css'
 
-import {closeVmDetail} from '../../vmactions'
+import { closeVmDetail } from '../../vm-actions'
 
-import VmIcon from '../VmIcon/index'
+import VmIcon from '../VmIcon'
 
 class VmDetail extends Component {
   componentDidMount () {
@@ -32,7 +32,10 @@ class VmDetail extends Component {
         <div className={'container-fluid ' + style['move-left-detail']}>
           <a href='#' className={style['move-left-close-detail']} onClick={this.onClose}><i className='pficon pficon-close'>Close</i></a>
 
-          <h1><VmIcon vmIcon={vm.getIn(['icons', 'small'])} missingIconClassName='pficon pficon-virtual-machine' className={style['vm-detail-icon']} /> {vm.get('name')}</h1>
+          <h1>
+            <VmIcon vmIcon={vm.getIn(['icons', 'small'])} missingIconClassName='pficon pficon-virtual-machine' className={style['vm-detail-icon']} />
+            {vm.get('name')}
+          </h1>
           <dl>
             <dt>Operating System</dt>
             <dd>{vm.getIn(['os', 'type'])}</dd>
@@ -54,13 +57,15 @@ class VmDetail extends Component {
         </div>
       )
     } else {
-      return (<div className={style['move-left-detail-invisible']} />)
+      return (
+        <div className={style['move-left-detail-invisible']} />
+      )
     }
   }
 }
 VmDetail.propTypes = {
   vm: React.PropTypes.object,
-  dispatch: React.PropTypes.func
+  dispatch: React.PropTypes.func,
 }
 
 export default VmDetail

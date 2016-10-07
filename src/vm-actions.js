@@ -1,88 +1,88 @@
 // --- External actions -----------------------
-export function login ({username, password}) {
+export function login ({ username, password }) {
   return {
     type: 'LOGIN',
     payload: {
       credentials: {
         username,
-        password
-      }
-    }
+        password,
+      },
+    },
   }
 }
 
 export function getAllVms () {
   return {
     type: 'GET_ALL_VMS',
-    payload: {}
+    payload: {},
   }
 }
 
-export function getVmIcons ({vm}) {
+export function getVmIcons ({ vm }) {
   return {
     type: 'GET_VM_ICONS',
     payload: {
-      vm
-    }
+      vm,
+    },
   }
 }
 
-export function shutdownVm ({vmId, force = false}) {
+export function shutdownVm ({ vmId, force = false }) {
   return {
     type: 'SHUTDOWN_VM',
     payload: {
       vmId,
-      force
-    }
+      force,
+    },
   }
 }
 
-export function restartVm ({vmId, force = false}) {
+export function restartVm ({ vmId, force = false }) {
   return {
     type: 'RESTART_VM',
     payload: {
       vmId,
-      force
-    }
+      force,
+    },
   }
 }
 
-export function startVm ({vmId}) {
+export function startVm ({ vmId }) {
   return {
     type: 'START_VM',
     payload: {
-      vmId
-    }
+      vmId,
+    },
   }
 }
 
-export function getConsole ({vmId}) {
+export function getConsole ({ vmId }) {
   return {
     type: 'GET_CONSOLE_VM',
     payload: {
-      vmId
-    }
+      vmId,
+    },
   }
 }
 
 // --- Internal State -------------------------
-export function loginSuccessful ({token, username}) {
+export function loginSuccessful ({ token, username }) {
   return {
     type: 'LOGIN_SUCCESSFUL',
     payload: {
       token,
-      username
-    }
+      username,
+    },
   }
 }
 
-export function loginFailed ({errorCode, message}) {
+export function loginFailed ({ errorCode, message }) {
   return {
     type: 'LOGIN_FAILED',
     payload: {
       errorCode,
-      message
-    }
+      message,
+    },
   }
 }
 
@@ -90,7 +90,7 @@ export function logout () {
   return {
     type: 'LOGOUT',
     payload: {
-    }
+    },
   }
 }
 
@@ -99,32 +99,32 @@ export function logout () {
  * @param vm
  * @returns {{type: string, payload: {vm: *}}}
  */
-export function updateVm ({vm}) {
+export function updateVm ({ vm }) {
   return {
     type: 'UPDATE_VM',
     payload: {
-      vm
-    }
+      vm,
+    },
   }
 }
 
-export function updateVmIcon ({vmId, icon, type}) {
+export function updateVmIcon ({ vmId, icon, type }) {
   return {
     type: 'UPDATE_VM_ICON',
     payload: {
       vmId,
       icon,
-      type
-    }
+      type,
+    },
   }
 }
 
-export function selectVmDetail ({vmId}) {
+export function selectVmDetail ({ vmId }) {
   return {
     type: 'SELECT_VM_DETAIL',
     payload: {
-      vmId
-    }
+      vmId,
+    },
   }
 }
 
@@ -132,28 +132,28 @@ export function closeVmDetail () {
   return {
     type: 'CLOSE_VM_DETAIL',
     payload: {
-    }
+    },
   }
 }
 
 export function clearUserMessages () {
   return {
     type: 'CLEAR_USER_MSGS',
-    payload: {}
+    payload: {},
   }
 }
 
-export function loadInProgress ({value}) {
+export function loadInProgress ({ value }) {
   return {
     type: 'SET_LOAD_IN_PROGRESS',
     payload: {
-      value
-    }
+      value,
+    },
   }
 }
 
 // --- FAILURES -------------------------------
-export function failedExternalAction ({message, exception, action}) {
+export function failedExternalAction ({ message, exception, action }) {
   if (exception) {
 /*    message = message ? message : (
         (exception['responseJSON'] && exception.responseJSON.fault && exception.responseJSON.fault.detail) ? (exception.responseJSON.fault.detail) : (
@@ -167,8 +167,8 @@ export function failedExternalAction ({message, exception, action}) {
       payload: {
         message: message,
         type: type,
-        action
-      }
+        action,
+      },
     }
   }
 
@@ -176,8 +176,8 @@ export function failedExternalAction ({message, exception, action}) {
     type: 'FAILED_EXTERNAL_ACTION',
     payload: {
       message,
-      action
-    }
+      action,
+    },
   }
 }
 
