@@ -19,7 +19,7 @@ class LoginButton extends Component {
     }
 
     // TODO: dispatch login action to show login dialog
-    return (<a className='user-name' href='#' onClick={onLogin}><i className='fa fa-sign-out' aria-hidden='true' />&nbsp;Login</a>)
+    return (<a className='user-name' href='#' onClick={onLogin}><i className='fa fa-sign-in' aria-hidden='true' />&nbsp;Login</a>)
   }
 }
 LoginButton.propTypes = {
@@ -28,7 +28,7 @@ LoginButton.propTypes = {
 }
 
 /**
- * Main header application on top of the page
+ * Main application header on top of the page
  */
 class VmsPageHeader extends Component {
   isUnread (userMessages) {
