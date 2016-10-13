@@ -2,21 +2,24 @@ import React, { PropTypes } from 'react'
 
 /**
  * Large or small icon (image) associated with the VM
+ * or default when icon not provided
  */
-const VmIcon = ({ vmIcon, className, missingIconClassName }) => {
-  const content = vmIcon.get('content')
-  const mediaType = vmIcon.get('mediaType')
+const VmIcon = ({ icon, className, missingIconClassName }) => {
+  if (icon) {
+    const data = icon.get('data')
+    const type = icon.get('type')
 
-  if (content) {
-    const src = `data:${mediaType};base64,${content}`
-    return <img src={src} className={className} alt='' />
+    if (data) {
+      const src = `data:${type};base64,${data}`
+      return <img src={src} className={className} alt='' />
+    }
   }
 
   return <span className={missingIconClassName} />
 }
 
 VmIcon.propTypes = {
-  vmIcon: PropTypes.object.isRequired, // either vm.icons.large or vm.icons.small
+  icon: PropTypes.object, // see the 'icons' reducer
   className: PropTypes.string.isRequired, // either card-pf-icon or vm-detail-icon
   missingIconClassName: PropTypes.string.isRequired,
 }

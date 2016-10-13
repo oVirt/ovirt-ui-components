@@ -2,21 +2,14 @@ import Immutable from 'immutable'
 
 import { logDebug, logError, hidePassword } from '../helpers'
 
-function updateOrAddVm ({ state, payload: { vm } }) {
-  return state.setIn(['vms', vm.id], Immutable.fromJS(vm))
-}
-
-function updateVmIcon ({ state, payload: { vmId, icon, type } }) {
-  if (state.getIn(['vms', vmId])) {
-    return state.setIn(['vms', vmId, 'icons', type, 'mediaType'], icon.media_type).setIn(['vms', vmId, 'icons', type, 'content'], icon.data)
-  } else { // fail, if VM not found
-    logError(`vms.updateVmIcon() reducer: vmId ${vmId} not found`)
-  }
-  return state
+function updateOrAddVm ({ state, payload: { vms } }) {
+  const updates = {}
+  vms.forEach(vm => { updates[vm.id] = vm })
+  const imUpdates = Immutable.fromJS(updates) // TODO: do we need deep-immutable?? So far not ...
+  return state.mergeIn(['vms'], imUpdates)
 }
 
 function updateVmDisk ({ state, payload: { vmId, disk } }) {
-  // TODO: do we need disks to be stored separately and maintain relation? So far not ...
   if (state.getIn(['vms', vmId])) {
     return state.setIn(['vms', vmId, 'disks', disk.id], disk)
   } else { // fail, if VM not found
@@ -59,10 +52,8 @@ function vms (state, action) {
   logDebug(`The 'vms' reducer action=${JSON.stringify(hidePassword({ action }))}`)
 
   switch (action.type) {
-    case 'UPDATE_VM':
+    case 'UPDATE_VMS':
       return updateOrAddVm({ state, payload: action.payload })
-    case 'UPDATE_VM_ICON':
-      return updateVmIcon({ state, payload: action.payload })
     case 'UPDATE_VM_DISK':
       return updateVmDisk({ state, payload: action.payload })
     case 'SELECT_VM_DETAIL':

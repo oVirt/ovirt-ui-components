@@ -27,15 +27,18 @@ class VmDetail extends Component {
   }
 
   render () {
-    const vm = this.props['vm'] // optional
+    const { vm, icons } = this.props // optional
 
     if (vm) {
+      const iconId = vm.getIn(['icons', 'small', 'id'])
+      const icon = icons.get(iconId)
+
       return (
         <div className={'container-fluid ' + style['move-left-detail']}>
           <a href='#' className={style['move-left-close-detail']} onClick={this.onClose}><i className='pficon pficon-close'>Close</i></a>
 
           <h1>
-            <VmIcon vmIcon={vm.getIn(['icons', 'small'])} missingIconClassName='pficon pficon-virtual-machine' className={style['vm-detail-icon']} />
+            <VmIcon icon={icon} missingIconClassName='pficon pficon-virtual-machine' className={style['vm-detail-icon']} />
             {vm.get('name')}
           </h1>
           <dl>
@@ -71,6 +74,7 @@ class VmDetail extends Component {
 }
 VmDetail.propTypes = {
   vm: React.PropTypes.object,
+  icons: React.PropTypes.object.isRequired,
   dispatch: React.PropTypes.func,
 }
 
