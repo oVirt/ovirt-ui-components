@@ -1,11 +1,11 @@
 .move-left { /* go to the left */
     transition: transform 1s;
-    transform: scale(0.5) perspective(200px) translateY(50px) rotateY(10deg);
+    transform: perspective(5000px) translateX(-20%) rotateY(70deg);
 }
 
 .move-left-remove {/* go back to normal */
-    transition: transform 1s;
-    transform: translateZ(0) translateX(0) rotateY(0deg);
+    transition: transform 0.5s;
+    transform: perspective(0px) translateZ(0) translateX(0) rotateY(0deg);
 }
 
 .card-pf-icon {
