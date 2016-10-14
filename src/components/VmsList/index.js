@@ -6,7 +6,7 @@ import ContainerFluid from '../ContainerFluid'
 import VmIcon from '../VmIcon'
 import VmStatusIcon from '../VmStatusIcon'
 
-import { selectVmDetail, shutdownVm, restartVm, startVm, getConsole, suspendVm } from '../../vm-actions'
+import { selectVmDetail, shutdownVm, restartVm, startVm, getConsole, suspendVm } from '../../actions/vm'
 import { canRestart, canShutdown, canStart, canConsole, canSuspend } from '../../vm-status'
 
 /**

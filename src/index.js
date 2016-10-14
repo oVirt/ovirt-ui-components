@@ -1,4 +1,4 @@
-export * from './components/Dummy'
+export { default as Dummy } from './components/Dummy'
 
 export { default as VmsList } from './components/VmsList'
 export { default as VmIcon } from './components/VmIcon'
@@ -12,9 +12,9 @@ export { default as VmsPageHeader } from './components/VmsPageHeader'
 
 export * from './helpers'
 
-// TODO: consider prefixes or wrapping in a class, split & directory structure
-export * from './vm-actions'
+export * from './actions'
 
+export { default as DummyReducer } from './reducers/dummy'
 export { default as ConfigReducer } from './reducers/config'
 export { default as UserMessages } from './reducers/userMessages'
 export { default as VmsReducer } from './reducers/vms'
