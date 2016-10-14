@@ -160,9 +160,12 @@ VmStatusText.propTypes = {
 /**
  * Single icon-card in the list
  */
-const Vm = ({ vm, dispatch }) => {
+const Vm = ({ vm, icons, dispatch }) => {
   const onSelectVm = () => dispatch(selectVmDetail({ vmId: vm.get('id') }))
   const state = vm.get('status')
+
+  const iconId = vm.getIn(['icons', 'large', 'id'])
+  const icon = icons.get(iconId)
 
   // TODO: improve the card flip:
   // TODO: https://davidwalsh.name/css-flip
@@ -173,7 +176,7 @@ const Vm = ({ vm, dispatch }) => {
       <div className='card-pf card-pf-view card-pf-view-select card-pf-view-single-select'>
         <div className='card-pf-body'>
           <div className='card-pf-top-element' onClick={onSelectVm}>
-            <VmIcon vmIcon={vm.getIn(['icons', 'large'])} className={style['card-pf-icon']}
+            <VmIcon icon={icon} className={style['card-pf-icon']}
               missingIconClassName='fa fa-birthday-cake card-pf-icon-circle' />
           </div>
           <h2 className='card-pf-title text-center' onClick={onSelectVm}>
@@ -190,10 +193,11 @@ const Vm = ({ vm, dispatch }) => {
 }
 Vm.propTypes = {
   vm: PropTypes.object.isRequired,
+  icons: PropTypes.object.isRequired,
   dispatch: PropTypes.func.isRequired,
 }
 
-const Vms = ({ vms, dispatch }) => {
+const Vms = ({ vms, icons, dispatch }) => {
   const selectedVmId = vms.get('selected')
   const containerClass = 'container-fluid container-cards-pf ' + (selectedVmId ? style['move-left'] : style['move-left-remove'])
 
@@ -201,7 +205,7 @@ const Vms = ({ vms, dispatch }) => {
     <span>
       <div className={containerClass}>
         <div className='row row-cards-pf'>
-          {vms.get('vms').toList().map(vm => <Vm vm={vm} key={vm.get('id')} dispatch={dispatch} />)}
+          {vms.get('vms').toList().map(vm => <Vm vm={vm} icons={icons} key={vm.get('id')} dispatch={dispatch} />)}
         </div>
       </div>
     </span>
@@ -209,13 +213,14 @@ const Vms = ({ vms, dispatch }) => {
 }
 Vms.propTypes = {
   vms: PropTypes.object.isRequired,
+  icons: PropTypes.object.isRequired,
   dispatch: PropTypes.func.isRequired,
 }
 
-const VmsList = ({ vms, config, dispatch }) => {
+const VmsList = ({ vms, icons, config, dispatch }) => {
   if (vms.get('vms') && !vms.get('vms').isEmpty()) {
     return (
-      <Vms vms={vms} dispatch={dispatch} />
+      <Vms vms={vms} icons={icons} dispatch={dispatch} />
     )
   } else if (!config.get('loginToken')) { // login is missing
     return (
@@ -239,6 +244,7 @@ const VmsList = ({ vms, config, dispatch }) => {
 }
 VmsList.propTypes = {
   vms: PropTypes.object.isRequired,
+  icons: PropTypes.object.isRequired,
   config: PropTypes.object.isRequired,
   dispatch: PropTypes.func.isRequired,
 }
