@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 
 import style from './style.css'
 
-import { closeVmDetail } from '../../vm-actions'
+import { closeVmDetail } from '../../actions/vm'
 import { userFormatOfBytes } from '../../helpers'
 
 import VmIcon from '../VmIcon'

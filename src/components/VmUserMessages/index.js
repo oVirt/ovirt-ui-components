@@ -3,7 +3,7 @@ import React from 'react'
 import style from './style.css'
 
 import { formatTwoDigits } from '../../helpers'
-import { clearUserMessages } from '../../vm-actions'
+import { clearUserMessages } from '../../actions/vm'
 
 const Time = ({ time }) => {
   const t = new Date(time)

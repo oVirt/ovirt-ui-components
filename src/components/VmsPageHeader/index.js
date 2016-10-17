@@ -4,7 +4,7 @@ import style from './style.css'
 
 import ContainerFluid from '../ContainerFluid'
 import VmUserMessages from '../VmUserMessages'
-import { logout } from '../../vm-actions'
+import { logout } from '../../actions/vm'
 
 const LoginButton = ({ config, dispatch }) => {
   const onLogout = () => dispatch(logout())

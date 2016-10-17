@@ -1,12 +1,27 @@
-import React from 'react'
+import React, { PropTypes } from 'react'
+import { connect } from 'react-redux'
 
 import style from './style.css'
 
-const Dummy = () => (
+import { dummy } from '../../actions/dummy'
+
+export const Dummy = ({ text, onClick }) => (
   <div>
-    <div className={style.nice}>Hello World</div>
-    <button className='btn btn-primary'>Primary</button>
+    <div className={style.nice}>{text}</div>
+    <button className='btn btn-primary' onClick={onClick}>Primary</button>
   </div>
 )
 
-export default Dummy
+Dummy.propTypes = {
+  text: PropTypes.string.isRequired,
+  onClick: PropTypes.func,
+}
+
+export default connect(
+  (state) => ({
+    text: state.dummy ? 'Hello World' : 'Goodbye World',
+  }),
+  (dispatch) => ({
+    onClick: () => dispatch(dummy()),
+  })
+)(Dummy)
