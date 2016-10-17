@@ -66,18 +66,30 @@ const LoadingData = () => {
   )
 }
 
-const Button = ({ render = true, className, tooltip = '', onClick }) => {
-  return render ? (
+const Button = ({ render = true, className, tooltip = '', actionDisabled = false, onClick }) => {
+  if (!render) {
+    return null
+  }
+
+  if (actionDisabled) {
+    className = `${className} ${style['action-disabled']}`
+    onClick = undefined
+  } else {
+    className = `${className} ${style['action-enabled']}`
+  }
+
+  return (
     <div className='card-pf-item'>
       <span className={className} data-toggle='tooltip' data-placement='left' title={tooltip} onClick={onClick} />
     </div>
-  ) : null
+  )
 }
 Button.propTypes = {
   render: PropTypes.bool.isRequired,
   className: PropTypes.string.isRequired,
   tooltip: PropTypes.string,
   onClick: PropTypes.func.isRequired,
+  actionDisabled: PropTypes.bool,
 }
 
 const EmptyAction = ({ state }) => {
@@ -109,11 +121,16 @@ const VmActions = ({ vm, dispatch }) => {
   return (
     <div className='card-pf-items text-center'>
       <EmptyAction state={status} />
-      <Button render={canConsole(status)} className='pficon pficon-screen' tooltip='Click to get console' onClick={onGetConsole} />
-      <Button render={canShutdown(status)} className='fa fa-power-off' tooltip='Click to shut down the VM' onClick={onShutdown} />
-      <Button render={canRestart(status)} className='fa fa-refresh' tooltip='Click to reboot the VM' onClick={onRestart} />
-      <Button render={canStart(status)} className='fa fa-angle-double-right' tooltip='Click to start the VM' onClick={onStart} />
-      <Button render={canSuspend(status)} className='fa fa-pause' tooltip='Click to suspend the VM' onClick={onSuspend} />
+      <Button render={canConsole(status)} actionDisabled={vm.getIn(['actionInProgress', 'getConsole'])}
+        className='pficon pficon-screen' tooltip='Click to get console' onClick={onGetConsole} />
+      <Button render={canShutdown(status)} actionDisabled={vm.getIn(['actionInProgress', 'shutdown'])}
+        className='fa fa-power-off' tooltip='Click to shut down the VM' onClick={onShutdown} />
+      <Button render={canRestart(status)} actionDisabled={vm.getIn(['actionInProgress', 'restart'])}
+        className='fa fa-refresh' tooltip='Click to reboot the VM' onClick={onRestart} />
+      <Button render={canStart(status)} actionDisabled={vm.getIn(['actionInProgress', 'start'])}
+        className='fa fa-angle-double-right' tooltip='Click to start the VM' onClick={onStart} />
+      <Button render={canSuspend(status)} actionDisabled={vm.getIn(['actionInProgress', 'suspend'])}
+        className='fa fa-pause' tooltip='Click to suspend the VM' onClick={onSuspend} />
     </div>
   )
 }

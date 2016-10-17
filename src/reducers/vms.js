@@ -60,6 +60,8 @@ function vms (state, action) {
       return state.set('selected', action.payload.vmId)
     case 'CLOSE_VM_DETAIL':
       return state.delete('selected')
+    case 'VM_ACTION_IN_PROGRESS':
+      return state.setIn(['vms', action.payload.vmId, 'actionInProgress', action.payload.name], action.payload.started)
     case 'LOGOUT': // see the config() reducer
       return state.set('vms', Immutable.fromJS({}))
       // return state.update('vms', vms => vms.clear())
