@@ -8,6 +8,8 @@ import { userFormatOfBytes } from '../../helpers'
 import VmIcon from '../VmIcon'
 import VmDisks from '../VmDisks'
 
+import VmActions from '../VmActions'
+
 class VmDetail extends Component {
   componentDidMount () {
     this.onKeyDown = (event) => {
@@ -27,7 +29,7 @@ class VmDetail extends Component {
   }
 
   render () {
-    const { vm, icons } = this.props // optional
+    const { vm, icons, dispatch } = this.props // optional
 
     if (vm) {
       const iconId = vm.getIn(['icons', 'small', 'id'])
@@ -41,6 +43,7 @@ class VmDetail extends Component {
             <VmIcon icon={icon} missingIconClassName='pficon pficon-virtual-machine' className={style['vm-detail-icon']} />
             {vm.get('name')}
           </h1>
+          <VmActions vm={vm} dispatch={dispatch} />
           <dl>
             <dt>State</dt>
             <dd>{vm.get('status')}</dd>

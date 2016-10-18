@@ -5,9 +5,9 @@ import style from './style.css'
 import ContainerFluid from '../ContainerFluid'
 import VmIcon from '../VmIcon'
 import VmStatusIcon from '../VmStatusIcon'
+import VmActions from '../VmActions'
 
-import { selectVmDetail, shutdownVm, restartVm, startVm, getConsole, suspendVm } from '../../actions/vm'
-import { canRestart, canShutdown, canStart, canConsole, canSuspend } from '../../vm-status'
+import { selectVmDetail } from '../../actions/vm'
 
 /**
  * Data are fetched but no VM is available to display
@@ -64,79 +64,6 @@ const LoadingData = () => {
       </p>
     </div>
   )
-}
-
-const Button = ({ render = true, className, tooltip = '', actionDisabled = false, onClick }) => {
-  if (!render) {
-    return null
-  }
-
-  if (actionDisabled) {
-    className = `${className} ${style['action-disabled']}`
-    onClick = undefined
-  } else {
-    className = `${className} ${style['action-enabled']}`
-  }
-
-  return (
-    <div className='card-pf-item'>
-      <span className={className} data-toggle='tooltip' data-placement='left' title={tooltip} onClick={onClick} />
-    </div>
-  )
-}
-Button.propTypes = {
-  render: PropTypes.bool.isRequired,
-  className: PropTypes.string.isRequired,
-  tooltip: PropTypes.string,
-  onClick: PropTypes.func.isRequired,
-  actionDisabled: PropTypes.bool,
-}
-
-const EmptyAction = ({ state }) => {
-  if (!canConsole(state) && !canShutdown(state) && !canRestart(state) && !canStart(state)) {
-    return (
-      <div className='card-pf-item' />
-    )
-  }
-  return null
-}
-EmptyAction.propTypes = {
-  state: PropTypes.string.isRequired,
-}
-
-/**
- * Active actions on a single VM-card.
- * List of actions depends on the VM state.
- */
-const VmActions = ({ vm, dispatch }) => {
-  const vmId = vm.get('id')
-  const status = vm.get('status')
-
-  const onGetConsole = () => dispatch(getConsole({ vmId }))
-  const onShutdown = () => dispatch(shutdownVm({ vmId, force: false }))
-  const onRestart = () => dispatch(restartVm({ vmId, force: false }))
-  const onStart = () => dispatch(startVm({ vmId }))
-  const onSuspend = () => dispatch(suspendVm({ vmId }))
-
-  return (
-    <div className='card-pf-items text-center'>
-      <EmptyAction state={status} />
-      <Button render={canConsole(status)} actionDisabled={vm.getIn(['actionInProgress', 'getConsole'])}
-        className='pficon pficon-screen' tooltip='Click to get console' onClick={onGetConsole} />
-      <Button render={canShutdown(status)} actionDisabled={vm.getIn(['actionInProgress', 'shutdown'])}
-        className='fa fa-power-off' tooltip='Click to shut down the VM' onClick={onShutdown} />
-      <Button render={canRestart(status)} actionDisabled={vm.getIn(['actionInProgress', 'restart'])}
-        className='fa fa-refresh' tooltip='Click to reboot the VM' onClick={onRestart} />
-      <Button render={canStart(status)} actionDisabled={vm.getIn(['actionInProgress', 'start'])}
-        className='fa fa-angle-double-right' tooltip='Click to start the VM' onClick={onStart} />
-      <Button render={canSuspend(status)} actionDisabled={vm.getIn(['actionInProgress', 'suspend'])}
-        className='fa fa-pause' tooltip='Click to suspend the VM' onClick={onSuspend} />
-    </div>
-  )
-}
-VmActions.propTypes = {
-  vm: PropTypes.object.isRequired,
-  dispatch: PropTypes.func.isRequired,
 }
 
 const VmStatusText = ({ vm }) => {
@@ -200,7 +127,7 @@ const Vm = ({ vm, icons, dispatch }) => {
             <VmStatusIcon state={state} />&nbsp;{vm.get('name')}
           </h2>
 
-          <VmActions vm={vm} dispatch={dispatch} />
+          <VmActions vm={vm} dispatch={dispatch} isOnCard />
           <VmStatusText vm={vm} />
 
         </div>
