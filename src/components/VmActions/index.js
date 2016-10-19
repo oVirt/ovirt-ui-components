@@ -1,7 +1,6 @@
 import React, { PropTypes } from 'react'
 import style from './style.css'
 
-import { shutdownVm, restartVm, startVm, getConsole, suspendVm } from '../../actions/vm'
 import { canRestart, canShutdown, canStart, canConsole, canSuspend } from '../../vm-status'
 
 const Button = ({ render = true, className, tooltip = '', actionDisabled = false, isOnCard, onClick }) => {
@@ -40,7 +39,7 @@ Button.propTypes = {
   render: PropTypes.bool.isRequired,
   className: PropTypes.string.isRequired,
   tooltip: PropTypes.string,
-  onClick: PropTypes.func.isRequired,
+  onClick: PropTypes.func,
   actionDisabled: PropTypes.bool,
   isOnCard: PropTypes.bool.isRequired,
 }
@@ -62,15 +61,14 @@ EmptyAction.propTypes = {
  * Active actions on a single VM-card.
  * List of actions depends on the VM state.
  */
-const VmActions = ({ vm, dispatch, isOnCard = false }) => {
-  const vmId = vm.get('id')
+const VmActions = ({ vm, actions, isOnCard = false }) => {
   const status = vm.get('status')
 
-  const onGetConsole = () => dispatch(getConsole({ vmId }))
-  const onShutdown = () => dispatch(shutdownVm({ vmId, force: false }))
-  const onRestart = () => dispatch(restartVm({ vmId, force: false }))
-  const onStart = () => dispatch(startVm({ vmId }))
-  const onSuspend = () => dispatch(suspendVm({ vmId }))
+  const onGetConsole = actions.onGetConsole
+  const onShutdown = actions.onShutdown
+  const onRestart = actions.onRestart
+  const onStart = actions.onStart
+  const onSuspend = actions.onSuspend
 
   return (
     <div className={`${isOnCard ? 'card-pf-items' : ''} text-center`}>
@@ -90,8 +88,8 @@ const VmActions = ({ vm, dispatch, isOnCard = false }) => {
 }
 VmActions.propTypes = {
   vm: PropTypes.object.isRequired,
-  dispatch: PropTypes.func.isRequired,
   isOnCard: PropTypes.bool,
+  actions: PropTypes.object,
 }
 
 export default VmActions

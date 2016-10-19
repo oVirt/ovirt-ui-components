@@ -1,8 +1,7 @@
-import React, { Component } from 'react'
+import React, { Component, PropTypes } from 'react'
 
 import style from './style.css'
 
-import { closeVmDetail } from '../../actions/vm'
 import { userFormatOfBytes } from '../../helpers'
 
 import VmIcon from '../VmIcon'
@@ -14,11 +13,8 @@ class VmDetail extends Component {
   componentDidMount () {
     this.onKeyDown = (event) => {
       if (event.keyCode === 27) { // ESC
-        this.onClose()
+        this.props.actions.onCloseVmDetail()
       }
-    }
-    this.onClose = () => {
-      this.props.dispatch(closeVmDetail())
     }
 
     window.addEventListener('keydown', this.onKeyDown)
@@ -29,7 +25,7 @@ class VmDetail extends Component {
   }
 
   render () {
-    const { vm, icons, dispatch } = this.props // optional
+    const { vm, icons, actions } = this.props // optional
 
     if (vm) {
       const iconId = vm.getIn(['icons', 'small', 'id'])
@@ -37,13 +33,12 @@ class VmDetail extends Component {
 
       return (
         <div className={'container-fluid ' + style['move-left-detail']}>
-          <a href='#' className={style['move-left-close-detail']} onClick={this.onClose}><i className='pficon pficon-close'>Close</i></a>
 
           <h1>
             <VmIcon icon={icon} missingIconClassName='pficon pficon-virtual-machine' className={style['vm-detail-icon']} />
             {vm.get('name')}
           </h1>
-          <VmActions vm={vm} dispatch={dispatch} />
+          <VmActions vm={vm} actions={actions} />
           <dl>
             <dt>State</dt>
             <dd>{vm.get('status')}</dd>
@@ -76,9 +71,9 @@ class VmDetail extends Component {
   }
 }
 VmDetail.propTypes = {
-  vm: React.PropTypes.object,
-  icons: React.PropTypes.object.isRequired,
-  dispatch: React.PropTypes.func,
+  vm: PropTypes.object,
+  icons: PropTypes.object.isRequired,
+  actions: PropTypes.object.isRequired,
 }
 
 export default VmDetail

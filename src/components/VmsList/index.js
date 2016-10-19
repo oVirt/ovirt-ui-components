@@ -7,7 +7,8 @@ import VmIcon from '../VmIcon'
 import VmStatusIcon from '../VmStatusIcon'
 import VmActions from '../VmActions'
 
-import { selectVmDetail } from '../../actions/vm'
+import { dispatchVmActions } from '../../actions/dispatchVm'
+import { closeVmDetail } from '../../actions/vm'
 
 /**
  * Data are fetched but no VM is available to display
@@ -104,8 +105,8 @@ VmStatusText.propTypes = {
 /**
  * Single icon-card in the list
  */
-const Vm = ({ vm, icons, dispatch }) => {
-  const onSelectVm = () => dispatch(selectVmDetail({ vmId: vm.get('id') }))
+const Vm = ({ vm, icons, actions = {} }) => {
+  const onSelectVm = actions.onSelectVm
   const state = vm.get('status')
 
   const iconId = vm.getIn(['icons', 'large', 'id'])
@@ -127,7 +128,7 @@ const Vm = ({ vm, icons, dispatch }) => {
             <VmStatusIcon state={state} />&nbsp;{vm.get('name')}
           </h2>
 
-          <VmActions vm={vm} dispatch={dispatch} isOnCard />
+          <VmActions vm={vm} actions={actions} isOnCard />
           <VmStatusText vm={vm} />
 
         </div>
@@ -138,18 +139,20 @@ const Vm = ({ vm, icons, dispatch }) => {
 Vm.propTypes = {
   vm: PropTypes.object.isRequired,
   icons: PropTypes.object.isRequired,
-  dispatch: PropTypes.func.isRequired,
+  actions: PropTypes.object,
 }
 
 const Vms = ({ vms, icons, dispatch }) => {
   const selectedVmId = vms.get('selected')
   const containerClass = 'container-fluid container-cards-pf ' + (selectedVmId ? style['move-left'] : style['move-left-remove'])
+  const stopNestedPropagation = selectedVmId
 
   return (
-    <span>
+    <span onClick={stopNestedPropagation ? () => dispatch(closeVmDetail()) : undefined}>
       <div className={containerClass}>
         <div className='row row-cards-pf'>
-          {vms.get('vms').toList().map(vm => <Vm vm={vm} icons={icons} key={vm.get('id')} dispatch={dispatch} />)}
+          {vms.get('vms').toList().map(vm => <Vm vm={vm} actions={dispatchVmActions({ vm, dispatch, stopNestedPropagation })}
+            icons={icons} key={vm.get('id')} />)}
         </div>
       </div>
     </span>
