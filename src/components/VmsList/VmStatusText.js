@@ -9,8 +9,7 @@ const VmStatusText = ({ vm }) => {
   if (lastMessage) {
     return (
       <p className={'card-pf-info text-center ' + style.crop} title={lastMessage} data-toggle='tooltip'>
-        <span className='pficon-warning-triangle-o' />&nbsp;
-        {lastMessage}
+        <span className='pficon-warning-triangle-o' />&nbsp;{lastMessage}
       </p>
     )
   }
@@ -22,9 +21,10 @@ const VmStatusText = ({ vm }) => {
     case 'migrating':
     default:
       return (
-        <p className='card-pf-info text-center'>
-          <strong>Blee&nbsp;</strong>
-        </p>)
+        <p className='card-pf-info text-center' >
+          &nbsp;
+        </p>
+      )
   }
 }
 VmStatusText.propTypes = {
