@@ -158,3 +158,14 @@ export function updateVmDisk ({ vmId, disk }) {
     },
   }
 }
+
+export function vmActionInProgress ({ vmId, name, started }) {
+  return {
+    type: 'VM_ACTION_IN_PROGRESS',
+    payload: {
+      vmId,
+      name,
+      started,
+    },
+  }
+}
