@@ -73,7 +73,7 @@ const VmStatusText = ({ vm }) => {
 
   if (lastMessage) {
     return (<div>
-      <p className='crop' title={lastMessage} data-toggle='tooltip'>
+      <p className={style.crop} title={lastMessage} data-toggle='tooltip'>
         <span className='pficon-warning-triangle-o' />&nbsp;{lastMessage}
       </p>
     </div>)

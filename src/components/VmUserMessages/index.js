@@ -20,7 +20,7 @@ Time.propTypes = {
 const UserMessage = ({ record }) => {
   // TODO: render record.type
   return (
-    <li className={'list-group-item' + style.crop} title={record.message} data-toggle='tooltip'>
+    <li className={'list-group-item ' + style.crop} title={record.message} data-toggle='tooltip'>
       <Time time={record.time} />&nbsp;{record.message}
     </li>
   )
@@ -33,7 +33,7 @@ const VmUserMessages = ({ userMessages, dispatch }) => {
   const onClearMessages = () => dispatch(clearUserMessages())
 
   return (<div className='dropdown-menu infotip bottom-right'>
-    <div className='arrow' />
+    <div className={'arrow ' + style['fix-arrow-position']} />
 
     <ul className='list-group'>
       {userMessages.get('records').map(r => (<UserMessage key={r.time} record={r} />))}
