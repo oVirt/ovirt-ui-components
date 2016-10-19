@@ -1,45 +1,11 @@
 import React, { PropTypes } from 'react'
+import { connect } from 'react-redux'
 
 import style from './style.css'
 
 import ContainerFluid from '../ContainerFluid'
 import VmUserMessages from '../VmUserMessages'
-import { logout, showLoginDialog } from '../../actions/vm'
-
-const LoginMenu = ({ config, dispatch }) => {
-  const onLogout = () => dispatch(logout())
-  const onLogin = () => dispatch(showLoginDialog())
-
-  if (config.get('loginToken')) {
-    return (
-      <li className='dropdown'>
-        <a className={'dropdown-toggle ' + style['user-name']} data-toggle='dropdown' href='#'>
-          <i className='fa fa-sign-out' aria-hidden='true' />&nbsp;
-          {config.getIn(['user', 'name'])}
-          <b className='caret' />
-        </a>
-        <ul className='dropdown-menu'>
-          <li>
-            <a href='#' onClick={onLogout}>Log out</a>
-          </li>
-        </ul>
-      </li>
-    )
-  }
-
-  // TODO: dispatch login action to show login dialog
-  return (
-    <li>
-      <a className='user-name' href='#' onClick={onLogin}>
-        <i className='fa fa-sign-in' aria-hidden='true' />&nbsp;Login
-      </a>
-    </li>
-  )
-}
-LoginMenu.propTypes = {
-  dispatch: PropTypes.func.isRequired,
-  config: PropTypes.object.isRequired,
-}
+import LoginMenu from './LoginMenu'
 
 function isUnread (userMessages) {
   return userMessages.get('unread')
@@ -48,7 +14,7 @@ function isUnread (userMessages) {
 /**
  * Main application header on top of the page
  */
-const VmsPageHeader = ({ title, userMessages, config, dispatch }) => {
+const VmsPageHeader = ({ title, userMessages, config }) => {
   const titleStyle = { padding: '0px 0 5px' }
 
   return (
@@ -58,14 +24,14 @@ const VmsPageHeader = ({ title, userMessages, config, dispatch }) => {
           <a className='navbar-brand' style={titleStyle} href='/'>{title}</a>
         </div>
         <ul className='nav navbar-nav navbar-utility'>
-          <LoginMenu dispatch={dispatch} config={config} />
+          <LoginMenu config={config} />
           <li className='dropdown'>
             <a href='#' data-toggle='dropdown'>
               <div className={isUnread(userMessages) ? style['usermsgs-unread'] : style['usermsgs-allread']}>
                 <span className='pficon pficon-info' />&nbsp;Messages
               </div>
             </a>
-            <VmUserMessages userMessages={userMessages} config={config} dispatch={dispatch} />
+            <VmUserMessages userMessages={userMessages} config={config} />
           </li>
         </ul>
       </ContainerFluid>
@@ -79,4 +45,9 @@ VmsPageHeader.propTypes = {
   title: PropTypes.string.isRequired,
 }
 
-export default VmsPageHeader
+export default connect(
+  (state) => ({
+    userMessages: state.userMessages,
+    config: state.config,
+  })
+)(VmsPageHeader)

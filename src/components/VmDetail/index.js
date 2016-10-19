@@ -1,8 +1,10 @@
 import React, { Component, PropTypes } from 'react'
+import { connect } from 'react-redux'
 
 import style from './style.css'
 
 import { userFormatOfBytes } from '../../helpers'
+import { closeVmDetail } from '../../actions/vm'
 
 import VmIcon from '../VmIcon'
 import VmDisks from '../VmDisks'
@@ -13,7 +15,7 @@ class VmDetail extends Component {
   componentDidMount () {
     this.onKeyDown = (event) => {
       if (event.keyCode === 27) { // ESC
-        this.props.actions.onCloseVmDetail()
+        this.props.onCloseVmDetail()
       }
     }
 
@@ -25,7 +27,7 @@ class VmDetail extends Component {
   }
 
   render () {
-    const { vm, icons, actions } = this.props // optional
+    const { vm, icons } = this.props // optional
 
     if (vm) {
       const iconId = vm.getIn(['icons', 'small', 'id'])
@@ -38,7 +40,7 @@ class VmDetail extends Component {
             <VmIcon icon={icon} missingIconClassName='pficon pficon-virtual-machine' className={style['vm-detail-icon']} />
             {vm.get('name')}
           </h1>
-          <VmActions vm={vm} actions={actions} />
+          <VmActions vm={vm} />
           <dl>
             <dt>State</dt>
             <dd>{vm.get('status')}</dd>
@@ -73,7 +75,14 @@ class VmDetail extends Component {
 VmDetail.propTypes = {
   vm: PropTypes.object,
   icons: PropTypes.object.isRequired,
-  actions: PropTypes.object.isRequired,
+  onCloseVmDetail: PropTypes.func.isRequired,
 }
 
-export default VmDetail
+export default connect(
+  (state) => ({
+    icons: state.icons,
+  }),
+  (dispatch, ownProps) => ({
+    onCloseVmDetail: () => dispatch(closeVmDetail()),
+  })
+)(VmDetail)

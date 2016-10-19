@@ -1,7 +1,10 @@
 import React, { PropTypes } from 'react'
+import { connect } from 'react-redux'
+
 import style from './style.css'
 
 import { canRestart, canShutdown, canStart, canConsole, canSuspend } from '../../vm-status'
+import { getConsole, shutdownVm, restartVm, suspendVm, startVm } from '../../actions/vm'
 
 const Button = ({ render = true, className, tooltip = '', actionDisabled = false, isOnCard, onClick }) => {
   if (!render) {
@@ -61,14 +64,8 @@ EmptyAction.propTypes = {
  * Active actions on a single VM-card.
  * List of actions depends on the VM state.
  */
-const VmActions = ({ vm, actions, isOnCard = false }) => {
+const VmActions = ({ vm, isOnCard = false, onGetConsole, onShutdown, onRestart, onStart, onSuspend }) => {
   const status = vm.get('status')
-
-  const onGetConsole = actions.onGetConsole
-  const onShutdown = actions.onShutdown
-  const onRestart = actions.onRestart
-  const onStart = actions.onStart
-  const onSuspend = actions.onSuspend
 
   return (
     <div className={`${isOnCard ? 'card-pf-items' : ''} text-center`}>
@@ -89,7 +86,22 @@ const VmActions = ({ vm, actions, isOnCard = false }) => {
 VmActions.propTypes = {
   vm: PropTypes.object.isRequired,
   isOnCard: PropTypes.bool,
-  actions: PropTypes.object,
+  onGetConsole: PropTypes.func.isRequired,
+  onShutdown: PropTypes.func.isRequired,
+  onRestart: PropTypes.func.isRequired,
+  onStart: PropTypes.func.isRequired,
+  onSuspend: PropTypes.func.isRequired,
 }
 
-export default VmActions
+export default connect(
+  (state) => ({
+    icons: state.icons,
+  }),
+  (dispatch, { vm }) => ({
+    onGetConsole: () => dispatch(getConsole({ vmId: vm.get('id') })),
+    onShutdown: () => dispatch(shutdownVm({ vmId: vm.get('id'), force: false })),
+    onRestart: () => dispatch(restartVm({ vmId: vm.get('id'), force: false })),
+    onStart: () => dispatch(startVm({ vmId: vm.get('id') })),
+    onSuspend: () => dispatch(suspendVm({ vmId: vm.get('id') })),
+  })
+)(VmActions)
