@@ -93,6 +93,14 @@ export function logout () {
   }
 }
 
+export function showLoginDialog () {
+  return {
+    type: 'SHOW_LOGIN',
+    payload: {
+    },
+  }
+}
+
 export function selectVmDetail ({ vmId }) {
   return {
     type: 'SELECT_VM_DETAIL',

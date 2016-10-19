@@ -4,28 +4,39 @@ import style from './style.css'
 
 import ContainerFluid from '../ContainerFluid'
 import VmUserMessages from '../VmUserMessages'
-import { logout } from '../../actions/vm'
+import { logout, showLoginDialog } from '../../actions/vm'
 
-const LoginButton = ({ config, dispatch }) => {
+const LoginMenu = ({ config, dispatch }) => {
   const onLogout = () => dispatch(logout())
-  const onLogin = () => {} // dispatch(showLoginDialog())
+  const onLogin = () => dispatch(showLoginDialog())
 
   if (config.get('loginToken')) {
     return (
-      <a className={style['user-name']} href='#' onClick={onLogout}>
-        <i className='fa fa-sign-out' aria-hidden='true' />&nbsp;{config.getIn(['user', 'name'])}
-      </a>
+      <li className='dropdown'>
+        <a className={'dropdown-toggle ' + style['user-name']} data-toggle='dropdown' href='#'>
+          <i className='fa fa-sign-out' aria-hidden='true' />&nbsp;
+          {config.getIn(['user', 'name'])}
+          <b className='caret' />
+        </a>
+        <ul className='dropdown-menu'>
+          <li>
+            <a href='#' onClick={onLogout}>Log out</a>
+          </li>
+        </ul>
+      </li>
     )
   }
 
   // TODO: dispatch login action to show login dialog
   return (
-    <a className='user-name' href='#' onClick={onLogin}>
-      <i className='fa fa-sign-in' aria-hidden='true' />&nbsp;Login
-    </a>
+    <li>
+      <a className='user-name' href='#' onClick={onLogin}>
+        <i className='fa fa-sign-in' aria-hidden='true' />&nbsp;Login
+      </a>
+    </li>
   )
 }
-LoginButton.propTypes = {
+LoginMenu.propTypes = {
   dispatch: PropTypes.func.isRequired,
   config: PropTypes.object.isRequired,
 }
@@ -47,9 +58,7 @@ const VmsPageHeader = ({ title, userMessages, config, dispatch }) => {
           <a className='navbar-brand' style={titleStyle} href='/'>{title}</a>
         </div>
         <ul className='nav navbar-nav navbar-utility'>
-          <li>
-            <LoginButton dispatch={dispatch} config={config} />
-          </li>
+          <LoginMenu dispatch={dispatch} config={config} />
           <li className='dropdown'>
             <a href='#' data-toggle='dropdown'>
               <div className={isUnread(userMessages) ? style['usermsgs-unread'] : style['usermsgs-allread']}>
