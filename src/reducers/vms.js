@@ -31,7 +31,7 @@ function failedExternalActionVmMessage ({ state, payload }) {
       const vmId = payload.action.payload.vmId
 
       if (state.getIn(['vms', vmId])) {
-        return state.setIn(['vms', vmId, 'lastMessage'], payload.message)
+        return state.setIn(['vms', vmId, 'lastMessage'], payload.shortMessage ? payload.shortMessage : payload.message)
       } else { // fail, if VM not found
         logError(`vms.updateVmIcon() reducer: vmId ${vmId} not found`)
       }

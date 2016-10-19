@@ -21,7 +21,12 @@ const UserMessage = ({ record }) => {
   // TODO: render record.type
   return (
     <li className={'list-group-item ' + style.crop} title={record.message} data-toggle='tooltip'>
-      <Time time={record.time} />&nbsp;{record.message}
+      <span>
+        <Time time={record.time} />
+        <pre>
+          {record.message}
+        </pre>
+      </span>
     </li>
   )
 }
