@@ -6,9 +6,11 @@ const VmStatusText = ({ vm }) => {
   const lastMessage = vm.get('lastMessage')
   const status = vm.get('status')
 
+  const croppedInfoClass = 'card-pf-info text-center ' + style.crop
+
   if (lastMessage) {
     return (
-      <p className={'card-pf-info text-center ' + style.crop} title={lastMessage} data-toggle='tooltip'>
+      <p className={croppedInfoClass} title={lastMessage} data-toggle='tooltip'>
         <span className='pficon-warning-triangle-o' />&nbsp;{lastMessage}
       </p>
     )
@@ -20,9 +22,10 @@ const VmStatusText = ({ vm }) => {
     case 'paused':
     case 'migrating':
     default:
+      const description = vm.get('description')
       return (
-        <p className='card-pf-info text-center'>
-          &nbsp;
+        <p className={croppedInfoClass} title={description} data-toggle='tooltip'>
+          &nbsp;{description}
         </p>
       )
   }

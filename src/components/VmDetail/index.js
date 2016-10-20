@@ -42,6 +42,8 @@ class VmDetail extends Component {
           </h1>
           <VmActions vm={vm} />
           <dl>
+            <dt>Description</dt>
+            <dd>{vm.get('description')}</dd>
             <dt>Operating System</dt>
             <dd>{vm.getIn(['os', 'type'])}</dd>
             <dt>State</dt>
