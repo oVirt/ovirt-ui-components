@@ -21,7 +21,7 @@ const VmStatusText = ({ vm }) => {
     case 'migrating':
     default:
       return (
-        <p className='card-pf-info text-center' >
+        <p className='card-pf-info text-center'>
           &nbsp;
         </p>
       )

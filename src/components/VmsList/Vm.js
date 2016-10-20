@@ -53,7 +53,7 @@ export default connect(
   (state) => ({
     icons: state.icons,
   }),
-  (dispatch, ownProps) => ({
-    onSelectVm: () => dispatch(selectVmDetail({ vmId: ownProps.vm.get('id') })),
+  (dispatch, { vm }) => ({
+    onSelectVm: () => dispatch(selectVmDetail({ vmId: vm.get('id') })),
   })
 )(Vm)

@@ -76,7 +76,7 @@ export default connect(
   (state) => ({
     icons: state.icons,
   }),
-  (dispatch, ownProps) => ({
+  (dispatch) => ({
     onCloseVmDetail: () => dispatch(closeVmDetail()),
   })
 )(VmDetail)

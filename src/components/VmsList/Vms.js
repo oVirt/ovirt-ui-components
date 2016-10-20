@@ -27,6 +27,5 @@ Vms.propTypes = {
 export default connect(
   (state) => ({
     vms: state.vms,
-  }),
-  (dispatch) => ({ })
+  })
 )(Vms)
