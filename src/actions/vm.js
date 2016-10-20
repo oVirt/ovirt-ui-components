@@ -1,4 +1,4 @@
-export function login ({ username, password }) {
+export function login ({ username, password, token }) {
   return {
     type: 'LOGIN',
     payload: {
@@ -6,6 +6,7 @@ export function login ({ username, password }) {
         username,
         password,
       },
+      token,
     },
   }
 }
