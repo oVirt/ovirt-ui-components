@@ -1,4 +1,4 @@
-export function failedExternalAction ({ message, exception, action }) {
+export function failedExternalAction ({ message, shortMessage, exception, action }) {
   if (exception) {
     message = message || ((exception['responseJSON'] && exception.responseJSON.fault && exception.responseJSON.fault.detail) ? (exception.responseJSON.fault.detail) : (exception['statusText'] || 'UNKNOWN'))
     const type = exception['status'] ? exception['status'] : 'ERROR'
@@ -6,6 +6,7 @@ export function failedExternalAction ({ message, exception, action }) {
       type: 'FAILED_EXTERNAL_ACTION',
       payload: {
         message,
+        shortMessage,
         type,
         action,
       },

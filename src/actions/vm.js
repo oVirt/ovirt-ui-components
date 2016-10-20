@@ -1,4 +1,4 @@
-export function login ({ username, password }) {
+export function login ({ username, password, token }) {
   return {
     type: 'LOGIN',
     payload: {
@@ -6,6 +6,7 @@ export function login ({ username, password }) {
         username,
         password,
       },
+      token,
     },
   }
 }
@@ -88,6 +89,14 @@ export function loginFailed ({ errorCode, message }) {
 export function logout () {
   return {
     type: 'LOGOUT',
+    payload: {
+    },
+  }
+}
+
+export function showLoginDialog () {
+  return {
+    type: 'SHOW_LOGIN',
     payload: {
     },
   }

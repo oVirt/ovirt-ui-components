@@ -1,22 +1,22 @@
-import React, { Component } from 'react'
+import React, { Component, PropTypes } from 'react'
+import { connect } from 'react-redux'
 
 import style from './style.css'
 
-import { closeVmDetail } from '../../actions/vm'
 import { userFormatOfBytes } from '../../helpers'
+import { closeVmDetail } from '../../actions/vm'
 
 import VmIcon from '../VmIcon'
 import VmDisks from '../VmDisks'
+
+import VmActions from '../VmActions'
 
 class VmDetail extends Component {
   componentDidMount () {
     this.onKeyDown = (event) => {
       if (event.keyCode === 27) { // ESC
-        this.onClose()
+        this.props.onCloseVmDetail()
       }
-    }
-    this.onClose = () => {
-      this.props.dispatch(closeVmDetail())
     }
 
     window.addEventListener('keydown', this.onKeyDown)
@@ -35,29 +35,25 @@ class VmDetail extends Component {
 
       return (
         <div className={'container-fluid ' + style['move-left-detail']}>
-          <a href='#' className={style['move-left-close-detail']} onClick={this.onClose}><i className='pficon pficon-close'>Close</i></a>
 
           <h1>
             <VmIcon icon={icon} missingIconClassName='pficon pficon-virtual-machine' className={style['vm-detail-icon']} />
             {vm.get('name')}
           </h1>
+          <VmActions vm={vm} />
           <dl>
-            <dt>State</dt>
-            <dd>{vm.get('status')}</dd>
-            <dt>Defined Memory</dt>
-            <dd>{userFormatOfBytes(vm.getIn(['memory', 'total'])).str}</dd>
-            <dt>CPUs</dt>
-            <dd>{vm.getIn(['cpu', 'vCPUs'])}</dd>
-            <dt>CPU Arch</dt>
-            <dd>{vm.getIn(['cpu', 'arch'])}</dd>
+            <dt>Description</dt>
+            <dd>{vm.get('description')}</dd>
             <dt>Operating System</dt>
             <dd>{vm.getIn(['os', 'type'])}</dd>
             <dt>State</dt>
             <dd>{vm.get('status')}</dd>
-            <dt>ID</dt>
-            <dd>{vm.get('id')}</dd>
-            <dt>High Availability</dt>
-            <dd>{vm.getIn(['highAvailability', 'enabled'])}</dd>
+            <dt>CPU Arch</dt>
+            <dd>{vm.getIn(['cpu', 'arch'])}</dd>
+            <dt>Defined Memory</dt>
+            <dd>{userFormatOfBytes(vm.getIn(['memory', 'total'])).str}</dd>
+            <dt>CPUs</dt>
+            <dd>{vm.getIn(['cpu', 'vCPUs'])}</dd>
             <dt>Address</dt>
             <dd>{vm.get('fqdn')}</dd>
             <dt>Disks</dt>
@@ -73,9 +69,16 @@ class VmDetail extends Component {
   }
 }
 VmDetail.propTypes = {
-  vm: React.PropTypes.object,
-  icons: React.PropTypes.object.isRequired,
-  dispatch: React.PropTypes.func,
+  vm: PropTypes.object,
+  icons: PropTypes.object.isRequired,
+  onCloseVmDetail: PropTypes.func.isRequired,
 }
 
-export default VmDetail
+export default connect(
+  (state) => ({
+    icons: state.icons,
+  }),
+  (dispatch) => ({
+    onCloseVmDetail: () => dispatch(closeVmDetail()),
+  })
+)(VmDetail)

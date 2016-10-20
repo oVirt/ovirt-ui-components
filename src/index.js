@@ -1,6 +1,7 @@
 export { default as Dummy } from './components/Dummy'
 
 export { default as VmsList } from './components/VmsList'
+
 export { default as VmIcon } from './components/VmIcon'
 export { default as VmStatusIcon } from './components/VmStatusIcon'
 

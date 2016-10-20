@@ -1,6 +1,11 @@
+/* TODO: How to share the style with VmsList? */
 .crop {
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
     width: inherit;
+}
+
+.fix-arrow-position {
+    left: 97% !important;
 }
