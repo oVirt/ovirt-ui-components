@@ -149,11 +149,11 @@ export function updateVms ({ vms }) {
   }
 }
 
-export function updateIcon ({ icon }) {
+export function updateIcons ({ icons }) {
   return {
-    type: 'UPDATE_ICON',
+    type: 'UPDATE_ICONS',
     payload: {
-      icon,
+      icons,
     },
   }
 }
