@@ -41,15 +41,13 @@ class VmDetail extends Component {
             {vm.get('name')}
           </h1>
           <VmActions vm={vm} />
-          <dl>
+          <dl className={style['vm-properties']}>
             <dt>Description</dt>
             <dd>{vm.get('description')}</dd>
             <dt>Operating System</dt>
             <dd>{vm.getIn(['os', 'type'])}</dd>
             <dt>State</dt>
             <dd>{vm.get('status')}</dd>
-            <dt>CPU Arch</dt>
-            <dd>{vm.getIn(['cpu', 'arch'])}</dd>
             <dt>Defined Memory</dt>
             <dd>{userFormatOfBytes(vm.getIn(['memory', 'total'])).str}</dd>
             <dt>CPUs</dt>
