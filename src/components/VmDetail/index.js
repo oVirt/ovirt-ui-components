@@ -8,8 +8,35 @@ import { closeVmDetail } from '../../actions/vm'
 
 import VmIcon from '../VmIcon'
 import VmDisks from '../VmDisks'
-
+import Time from '../Time'
 import VmActions from '../VmActions'
+
+const LastMessage = ({ vmId, userMessages }) => {
+  const vmMessages = userMessages.get('records')
+    .filter(msg => (msg.failedAction && msg.failedAction.payload && msg.failedAction.payload.vmId === vmId))
+    .sort((msg1, msg2) => (msg1.time - msg2.time))
+
+  console.log(`LastMessage: vmMessages: ${JSON.stringify(vmMessages)}`)
+  const lastMessage = vmMessages.last()
+  console.log(`LastMessage: lastMessage: ${JSON.stringify(lastMessage)}`)
+
+  if (!lastMessage) {
+    return null
+  }
+
+  return (
+    <span>
+      <Time time={lastMessage.time} />
+      <pre>
+        {lastMessage.message}
+      </pre>
+    </span>
+  )
+}
+LastMessage.propTypes = {
+  vmId: PropTypes.string.isRequired,
+  userMessages: PropTypes.object.isRequired,
+}
 
 class VmDetail extends Component {
   componentDidMount () {
@@ -27,7 +54,7 @@ class VmDetail extends Component {
   }
 
   render () {
-    const { vm, icons } = this.props // optional
+    const { vm, icons, userMessages } = this.props // optional
 
     if (vm) {
       const iconId = vm.getIn(['icons', 'small', 'id'])
@@ -40,7 +67,8 @@ class VmDetail extends Component {
             <VmIcon icon={icon} missingIconClassName='pficon pficon-virtual-machine' className={style['vm-detail-icon']} />
             {vm.get('name')}
           </h1>
-          <VmActions vm={vm} />
+          <VmActions vm={vm} userMessages={userMessages} />
+          <LastMessage vmId={vm.get('id')} userMessages={userMessages} />
           <dl className={style['vm-properties']}>
             <dt>Description</dt>
             <dd>{vm.get('description')}</dd>
@@ -69,12 +97,14 @@ class VmDetail extends Component {
 VmDetail.propTypes = {
   vm: PropTypes.object,
   icons: PropTypes.object.isRequired,
+  userMessages: PropTypes.object.isRequired,
   onCloseVmDetail: PropTypes.func.isRequired,
 }
 
 export default connect(
   (state) => ({
     icons: state.icons,
+    userMessages: state.userMessages,
   }),
   (dispatch) => ({
     onCloseVmDetail: () => dispatch(closeVmDetail()),

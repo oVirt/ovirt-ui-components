@@ -25,6 +25,7 @@ function userMessages (state, action) {
       return addLogEntry({
         state,
         message: action.payload.message,
+        shortMessage: action.payload.shortMessage,
         type: action.payload.type,
         failedAction: action.payload.action,
       })

@@ -72,7 +72,6 @@ function vms (state, action) {
       return state.setIn(['vms', action.payload.vmId, 'actionInProgress', action.payload.name], action.payload.started)
     case 'LOGOUT': // see the config() reducer
       return state.set('vms', Immutable.fromJS({}))
-      // return state.update('vms', vms => vms.clear())
     case 'SET_LOAD_IN_PROGRESS':
       return state.set('loadInProgress', action.payload.value)
     case 'FAILED_EXTERNAL_ACTION': // see the userMessages() reducer
