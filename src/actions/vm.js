@@ -149,6 +149,21 @@ export function updateVms ({ vms }) {
   }
 }
 
+/**
+ * Remove VMs from store.
+ *
+ * @param vmIds
+ * @returns {{type: string, payload: {vmIds: *}}}
+ */
+export function removeVms ({ vmIds }) {
+  return {
+    type: 'REMOVE_VMS',
+    payload: {
+      vmIds,
+    },
+  }
+}
+
 export function updateIcons ({ icons }) {
   return {
     type: 'UPDATE_ICONS',

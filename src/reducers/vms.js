@@ -9,6 +9,12 @@ function updateOrAddVm ({ state, payload: { vms } }) {
   return state.mergeIn(['vms'], imUpdates)
 }
 
+function removeVms ({ state, payload: { vmIds } }) {
+  const mutable = state.asMutable()
+  vmIds.forEach(vmId => mutable.deleteIn([ 'vms', vmId ]))
+  return mutable.asImmutable()
+}
+
 function updateVmDisk ({ state, payload: { vmId, disk } }) {
   if (state.getIn(['vms', vmId])) {
     return state.setIn(['vms', vmId, 'disks', disk.id], disk)
@@ -54,6 +60,8 @@ function vms (state, action) {
   switch (action.type) {
     case 'UPDATE_VMS':
       return updateOrAddVm({ state, payload: action.payload })
+    case 'REMOVE_VMS':
+      return removeVms({ state, payload: action.payload })
     case 'UPDATE_VM_DISK':
       return updateVmDisk({ state, payload: action.payload })
     case 'SELECT_VM_DETAIL':
