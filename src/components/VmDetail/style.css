@@ -4,7 +4,7 @@
     height: 100%;
     display: block;
     left: 60%;
-    width: 30%;
+    width: 40%;
     opacity:1;
     transition:opacity 0.75s ease-in-out;
 }
