@@ -19,7 +19,6 @@ function removeMissingVms ({ state, payload: { vmIdsToPreserve } }) {
   const vmIdsToBeDeleted = state.get('vms')
     .keySeq()
     .filter(vmId => !vmIdsToPreserve.some(toPreserveId => toPreserveId === vmId))
-    .map(vmId => vmId)
 
   const mutable = state.asMutable()
   vmIdsToBeDeleted.forEach(vmId => mutable.deleteIn([ 'vms', vmId ]))
@@ -28,9 +27,7 @@ function removeMissingVms ({ state, payload: { vmIdsToPreserve } }) {
 
 function setVmDisks ({ state, payload: { vmId, disks } }) {
   if (state.getIn(['vms', vmId])) {
-    const mutable = state.asMutable()
-    state.setIn(['vms', vmId, 'disks'], List.of(disks))
-    return mutable.asImmutable()
+    return state.setIn(['vms', vmId, 'disks'], List.of(disks))
   } else { // fail, if VM not found
     logError(`vms.updateVmDisk() reducer: vmId ${vmId} not found`)
   }
