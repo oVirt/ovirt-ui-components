@@ -6,18 +6,18 @@ import Vm from './Vm'
 
 const Vms = ({ vms }) => {
   const selectedVmId = vms.get('selected')
-  const containerClass = 'container-fluid container-cards-pf ' + (selectedVmId ? style['move-left'] : style['move-left-remove'])
-  // const stopNestedPropagation = selectedVmId
+  const containerClass = 'container-fluid container-cards-pf ' + (selectedVmId ? style['move-left'] : style['return-from-left'])
+  const backgroundClass = selectedVmId ? style['move-left-background'] : style['return-from-left-background']
 
   return (
-    <span>
+    <div className={backgroundClass}>
       <div className={containerClass}>
         <div className='row row-cards-pf'>
           {vms.get('vms').toList().map(vm =>
             <Vm vm={vm} key={vm.get('id')} />)}
         </div>
       </div>
-    </span>
+    </div>
   )
 }
 Vms.propTypes = {
