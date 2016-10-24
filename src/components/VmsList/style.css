@@ -1,11 +1,20 @@
 .move-left { /* go to the left */
-    transition: transform 1s;
-    transform: perspective(5000px) translateX(-20%) rotateY(70deg);
+    transition: transform 1.5s;
+    transform: perspective(1000px) rotateY(50deg);
+    transform-origin: 0 50%;
 }
 
-.move-left-remove {/* go back to normal */
-    transition: transform 0.5s;
-    transform: perspective(0px) translateZ(0) translateX(0) rotateY(0deg);
+.return-from-left { /* go back to normal (no detail visible) */
+    transition-duration: 0.7s;
+    transition-timing-function: ease-out;
+}
+
+.move-left-background {
+    background-color: inherit; /* #c2c2c2; */
+}
+
+.return-from-left-background {
+    background-color: inherit;
 }
 
 .card-pf-icon {
