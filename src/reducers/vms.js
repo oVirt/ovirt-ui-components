@@ -1,4 +1,4 @@
-import Immutable, { Map } from 'immutable'
+import Immutable, { List } from 'immutable'
 
 import { logDebug, logError, hidePassword } from '../helpers'
 
@@ -26,22 +26,13 @@ function removeMissingVms ({ state, payload: { vmIdsToPreserve } }) {
   return mutable.asImmutable()
 }
 
-function updateVmDisk ({ state, payload: { vmId, disk } }) {
-  // TODO: If disk management is implemented then maintain disks separately
-  // and manage references (like for icons). Recently it makes no sense
+function setVmDisks ({ state, payload: { vmId, disks } }) {
   if (state.getIn(['vms', vmId])) {
-    return state.setIn(['vms', vmId, 'disks', disk.id], disk)
+    const mutable = state.asMutable()
+    state.setIn(['vms', vmId, 'disks'], List.of(disks))
+    return mutable.asImmutable()
   } else { // fail, if VM not found
     logError(`vms.updateVmDisk() reducer: vmId ${vmId} not found`)
-  }
-  return state
-}
-
-function clearVmDisks ({ state, payload: { vmId } }) {
-  if (state.getIn(['vms', vmId])) {
-    return state.setIn(['vms', vmId, 'disks'], Map())
-  } else { // fail, if VM not found
-    logError(`vms.clearVmDisks() reducer: vmId ${vmId} not found`)
   }
   return state
 }
@@ -86,11 +77,9 @@ function vms (state, action) {
       return removeVms({ state, payload: action.payload })
     case 'REMOVE_MISSING_VMS':
       return removeMissingVms({ state, payload: action.payload })
-    case 'UPDATE_VM_DISK':
-      return updateVmDisk({ state, payload: action.payload })
-    case 'CLEAR_VM_DISKS':
-      return clearVmDisks({ state, payload: action.payload })
-    case 'SELECT_VM_DETAIL':
+    case 'SET_VM_DISKS':
+      return setVmDisks({ state, payload: action.payload })
+    case 'SET_VM_DETAIL_TO_DISPLAY':
       return state.set('selected', action.payload.vmId)
     case 'CLOSE_VM_DETAIL':
       return state.delete('selected')

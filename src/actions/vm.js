@@ -112,9 +112,32 @@ export function showLoginDialog () {
   }
 }
 
+/**
+ * Action triggered when user selects a vm to detailed view
+ *
+ * Split of selectVmDetail/setVmDetailToShow allows additional processing.
+ *
+ * @param vmId
+ * @returns {{type: string, payload: {vmId: *}}}
+ */
 export function selectVmDetail ({ vmId }) {
   return {
     type: 'SELECT_VM_DETAIL',
+    payload: {
+      vmId,
+    },
+  }
+}
+
+/**
+ * Dispatched as a side effect of selectVmDetail() processing
+ *
+ * @param vmId
+ * @returns {{type: string, payload: {vmId: *}}}
+ */
+export function setVmDetailToShow ({ vmId }) {
+  return {
+    type: 'SET_VM_DETAIL_TO_DISPLAY',
     payload: {
       vmId,
     },
@@ -197,21 +220,12 @@ export function updateIcons ({ icons }) {
   }
 }
 
-export function updateVmDisk ({ vmId, disk }) {
+export function setVmDisks ({ vmId, disks }) {
   return {
-    type: 'UPDATE_VM_DISK',
+    type: 'SET_VM_DISKS',
     payload: {
       vmId,
-      disk,
-    },
-  }
-}
-
-export function clearVmDisks ({ vmId }) {
-  return {
-    type: 'CLEAR_VM_DISKS',
-    payload: {
-      vmId,
+      disks,
     },
   }
 }
