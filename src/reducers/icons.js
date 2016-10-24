@@ -1,4 +1,11 @@
-import Immutable, { Map } from 'immutable'
+import { Map } from 'immutable'
+
+function updateOrAdd ({ state, payload: { icons } }) {
+  const updates = {}
+  icons.forEach(icon => { updates[icon.id] = icon })
+  // we don't need deep-immutable
+  return state.merge(updates)
+}
 
 /**
  * The Icons reducer
@@ -9,8 +16,8 @@ import Immutable, { Map } from 'immutable'
  */
 function icons (state = Map(), action) {
   switch (action.type) {
-    case 'UPDATE_ICON': // add or update
-      return state.set(action.payload.icon.id, Immutable.fromJS(action.payload.icon))
+    case 'UPDATE_ICONS': // add or update
+      return updateOrAdd({ state, payload: action.payload })
     default:
       return state
   }

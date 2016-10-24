@@ -3,8 +3,8 @@
     top: 2.5em;
     height: 100%;
     display: block;
-    left: 70%;
-    width: 30%;
+    left: 60%;
+    width: 40%;
     opacity:1;
     transition:opacity 0.75s ease-in-out;
 }
@@ -18,10 +18,14 @@
     float: right;
 }
 
+.vm-properties {
+    font-size: 15px;
+}
+
 dt {
     clear: left;
     float: left;
-    width: 100px;
+    width: 200px;
     min-height: 26px;
     white-space: nowrap;
     overflow: hidden;

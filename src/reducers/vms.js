@@ -9,6 +9,12 @@ function updateOrAddVm ({ state, payload: { vms } }) {
   return state.mergeIn(['vms'], imUpdates)
 }
 
+function removeVms ({ state, payload: { vmIds } }) {
+  const mutable = state.asMutable()
+  vmIds.forEach(vmId => mutable.deleteIn([ 'vms', vmId ]))
+  return mutable.asImmutable()
+}
+
 function updateVmDisk ({ state, payload: { vmId, disk } }) {
   if (state.getIn(['vms', vmId])) {
     return state.setIn(['vms', vmId, 'disks', disk.id], disk)
@@ -54,6 +60,8 @@ function vms (state, action) {
   switch (action.type) {
     case 'UPDATE_VMS':
       return updateOrAddVm({ state, payload: action.payload })
+    case 'REMOVE_VMS':
+      return removeVms({ state, payload: action.payload })
     case 'UPDATE_VM_DISK':
       return updateVmDisk({ state, payload: action.payload })
     case 'SELECT_VM_DETAIL':
@@ -64,7 +72,6 @@ function vms (state, action) {
       return state.setIn(['vms', action.payload.vmId, 'actionInProgress', action.payload.name], action.payload.started)
     case 'LOGOUT': // see the config() reducer
       return state.set('vms', Immutable.fromJS({}))
-      // return state.update('vms', vms => vms.clear())
     case 'SET_LOAD_IN_PROGRESS':
       return state.set('loadInProgress', action.payload.value)
     case 'FAILED_EXTERNAL_ACTION': // see the userMessages() reducer

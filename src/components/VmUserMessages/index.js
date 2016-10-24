@@ -3,20 +3,9 @@ import { connect } from 'react-redux'
 
 import style from './style.css'
 
-import { formatTwoDigits } from '../../helpers'
-import { clearUserMessages } from '../../actions/vm'
+import Time from '../Time'
 
-const Time = ({ time }) => {
-  const t = new Date(time)
-  return (
-    <div>
-      {`${formatTwoDigits(t.getHours())}:${formatTwoDigits(t.getMinutes())}:${formatTwoDigits(t.getSeconds())}`}
-    </div>
-  )
-}
-Time.propTypes = {
-  time: PropTypes.number.isRequired,
-}
+import { clearUserMessages } from '../../actions/vm'
 
 const UserMessage = ({ record }) => {
   // TODO: render record.type
