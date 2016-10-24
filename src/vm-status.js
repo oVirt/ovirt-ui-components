@@ -1,27 +1,21 @@
-
-// TODO: review - use VM status functions similar to the ovirt-engine
 export function canStart (state) {
-  return state && state === 'down'
+  return state && (state === 'down' || state === 'paused' || state === 'suspended')
 }
 
-// TODO: review
 export function canShutdown (state) {
-  return canRestart(state)
+  return canRestart(state) || state === 'reboot_in_progress'
 }
 
-// TODO: review
 export function canRestart (state) {
-  return state && (canSuspend(state) || state === 'paused' || state === 'suspended')
+  return state && (state === 'up' || state === 'migrating')
 }
 
-// TODO: review
 export function canSuspend (state) {
-  return state && (state === 'up' || state === 'powering_up')
+  return state && (state === 'up')
 }
 
-// TODO: review
 export function canConsole (state) {
-  return canSuspend(state)
+  return state && (state === 'up' || state === 'powering_up' || state === 'powering_down' || state === 'paused' || state === 'migrating' || state === 'reboot_in_progress' || state === 'saving_state')
 }
 
 /*
