@@ -5,13 +5,24 @@ import { logDebug, logError, hidePassword } from '../helpers'
 function updateOrAddVm ({ state, payload: { vms } }) {
   const updates = {}
   vms.forEach(vm => { updates[vm.id] = vm })
-  const imUpdates = Immutable.fromJS(updates) // TODO: do we need deep-immutable?? So far not ...
+  const imUpdates = Immutable.fromJS(updates)
   return state.mergeIn(['vms'], imUpdates)
 }
 
 function removeVms ({ state, payload: { vmIds } }) {
   const mutable = state.asMutable()
   vmIds.forEach(vmId => mutable.deleteIn([ 'vms', vmId ]))
+  return mutable.asImmutable()
+}
+
+function removeMissingVms ({ state, payload: { vmIdsToPreserve } }) {
+  const vmIdsToBeDeleted = state.get('vms')
+    .keySeq()
+    .filter(vmId => !vmIdsToPreserve.some(toPreserveId => toPreserveId === vmId))
+    .map(vmId => vmId)
+
+  const mutable = state.asMutable()
+  vmIdsToBeDeleted.forEach(vmId => mutable.deleteIn([ 'vms', vmId ]))
   return mutable.asImmutable()
 }
 
@@ -62,6 +73,8 @@ function vms (state, action) {
       return updateOrAddVm({ state, payload: action.payload })
     case 'REMOVE_VMS':
       return removeVms({ state, payload: action.payload })
+    case 'REMOVE_MISSING_VMS':
+      return removeMissingVms({ state, payload: action.payload })
     case 'UPDATE_VM_DISK':
       return updateVmDisk({ state, payload: action.payload })
     case 'SELECT_VM_DETAIL':

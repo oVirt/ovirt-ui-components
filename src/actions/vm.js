@@ -164,6 +164,20 @@ export function removeVms ({ vmIds }) {
   }
 }
 
+/**
+ * Remove all VMs from store which ID is not listed among vmIdsToPreserve
+ * @param vmIdsToPreserve
+ * @returns {{type: string, payload: {vmIds: *}}}
+ */
+export function removeMissingVms ({ vmIdsToPreserve }) {
+  return {
+    type: 'REMOVE_MISSING_VMS',
+    payload: {
+      vmIdsToPreserve,
+    },
+  }
+}
+
 export function updateIcons ({ icons }) {
   return {
     type: 'UPDATE_ICONS',
