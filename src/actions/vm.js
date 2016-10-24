@@ -197,6 +197,15 @@ export function updateVmDisk ({ vmId, disk }) {
   }
 }
 
+export function clearVmDisks ({ vmId }) {
+  return {
+    type: 'CLEAR_VM_DISKS',
+    payload: {
+      vmId,
+    },
+  }
+}
+
 export function vmActionInProgress ({ vmId, name, started }) {
   return {
     type: 'VM_ACTION_IN_PROGRESS',
