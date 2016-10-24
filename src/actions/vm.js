@@ -11,10 +11,20 @@ export function login ({ username, password, token }) {
   }
 }
 
-export function getAllVms () {
+/**
+ * Read all VMs data and related subresources
+ *
+ * @param shallowFetch If true, only VMs and their (missing) icons are read,
+ * otherwise full read/refresh
+ *
+ * @returns {{type: string, payload: {shallowFetch}}}
+ */
+export function getAllVms ({ shallowFetch = false }) {
   return {
     type: 'GET_ALL_VMS',
-    payload: {},
+    payload: {
+      shallowFetch,
+    },
   }
 }
 
