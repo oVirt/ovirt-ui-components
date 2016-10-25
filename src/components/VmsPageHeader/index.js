@@ -18,7 +18,7 @@ const VmsPageHeader = ({ title, userMessages, config }) => {
   const titleStyle = { padding: '0px 0 5px' }
 
   return (
-    <nav className='navbar navbar-default navbar-pf'>
+    <nav className='navbar navbar-default navbar-pf navbar-fixed-top'>
       <ContainerFluid>
         <div className='navbar-header'>
           <a className='navbar-brand' style={titleStyle} href='/'>{title}</a>
