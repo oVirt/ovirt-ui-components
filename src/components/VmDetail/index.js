@@ -4,7 +4,8 @@ import { connect } from 'react-redux'
 import style from './style.css'
 
 import { userFormatOfBytes } from '../../helpers'
-import { closeVmDetail } from '../../actions/vm'
+import { closeVmDetail, getConsole } from '../../actions/vm'
+import { canConsole } from '../../vm-status'
 
 import VmIcon from '../VmIcon'
 import VmDisks from '../VmDisks'
@@ -38,6 +39,22 @@ LastMessage.propTypes = {
   userMessages: PropTypes.object.isRequired,
 }
 
+const VmConsoles = ({ vm, onConsole }) => {
+  return (
+    <dd>
+      {canConsole(vm.get('status')) ? vm.get('consoles').map(c => (
+        <a href='#' key={c.id} onClick={() => onConsole({ vmId: vm.get('id'), consoleId: c.id })} className={style['left-delimiter']}>
+          {c.protocol.toUpperCase()}
+        </a>
+      )) : ''}
+    </dd>
+  )
+}
+VmConsoles.propTypes = {
+  vm: PropTypes.object.isRequired,
+  onConsole: PropTypes.func.isRequired,
+}
+
 class VmDetail extends Component {
   componentDidMount () {
     this.onKeyDown = (event) => {
@@ -54,7 +71,7 @@ class VmDetail extends Component {
   }
 
   render () {
-    const { vm, icons, userMessages } = this.props // optional
+    const { vm, icons, userMessages, onConsole } = this.props // optional
 
     if (vm) {
       const iconId = vm.getIn(['icons', 'small', 'id'])
@@ -82,6 +99,8 @@ class VmDetail extends Component {
             <dd>{vm.getIn(['cpu', 'vCPUs'])}</dd>
             <dt>Address</dt>
             <dd>{vm.get('fqdn')}</dd>
+            <dt><span className='pficon pficon-screen' /> Console</dt>
+            <VmConsoles vm={vm} onConsole={onConsole} />
             <dt>Disks</dt>
             <dd><VmDisks disks={vm.get('disks')} /></dd>
           </dl>
@@ -99,6 +118,7 @@ VmDetail.propTypes = {
   icons: PropTypes.object.isRequired,
   userMessages: PropTypes.object.isRequired,
   onCloseVmDetail: PropTypes.func.isRequired,
+  onConsole: PropTypes.func.isRequired,
 }
 
 export default connect(
@@ -108,5 +128,6 @@ export default connect(
   }),
   (dispatch) => ({
     onCloseVmDetail: () => dispatch(closeVmDetail()),
+    onConsole: ({ vmId, consoleId }) => dispatch(getConsole({ vmId, consoleId })),
   })
 )(VmDetail)

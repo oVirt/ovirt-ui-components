@@ -57,11 +57,12 @@ export function startVm ({ vmId }) {
   }
 }
 
-export function getConsole ({ vmId }) {
+export function getConsole ({ vmId, consoleId }) {
   return {
     type: 'GET_CONSOLE_VM',
     payload: {
       vmId,
+      consoleId,
     },
   }
 }
@@ -237,6 +238,16 @@ export function vmActionInProgress ({ vmId, name, started }) {
       vmId,
       name,
       started,
+    },
+  }
+}
+
+export function setVmConsoles ({ vmId, consoles }) {
+  return {
+    type: 'SET_VM_CONSOLES',
+    payload: {
+      vmId,
+      consoles,
     },
   }
 }

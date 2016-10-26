@@ -71,7 +71,7 @@ const VmActions = ({ vm, isOnCard = false, onGetConsole, onShutdown, onRestart, 
     <div className={`${isOnCard ? 'card-pf-items' : ''} text-center`}>
       <EmptyAction state={status} isOnCard={isOnCard} />
       <Button isOnCard={isOnCard} render={canConsole(status)} actionDisabled={vm.getIn(['actionInProgress', 'getConsole'])}
-        className='pficon pficon-screen' tooltip='Click to get console' onClick={onGetConsole} />
+        className='pficon pficon-screen' tooltip='Click to get default console' onClick={onGetConsole} />
       <Button isOnCard={isOnCard} render={canShutdown(status)} actionDisabled={vm.getIn(['actionInProgress', 'shutdown'])}
         className='fa fa-power-off' tooltip='Click to shut down the VM' onClick={onShutdown} />
       <Button isOnCard={isOnCard} render={canRestart(status)} actionDisabled={vm.getIn(['actionInProgress', 'restart'])}

@@ -45,3 +45,17 @@ dd {
 
 .vm-detail-icon { /* small VM icon on detail page*/
 }
+/*
+.console-list {
+    list-style-type: none;
+    display: inline;
+}
+*/
+.left-delimiter {
+    padding: 0 13px 0 0;
+}
+
+.left-delimiter + .left-delimiter {
+    padding-left: 13px;
+    border-left: 1px solid #d1d1d1;
+}
