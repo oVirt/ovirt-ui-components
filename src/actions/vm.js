@@ -185,7 +185,7 @@ export function updateVms ({ vms }) {
 /**
  * Remove VMs from store.
  *
- * @param vmIds
+ * @param vmIds array
  * @returns {{type: string, payload: {vmIds: *}}}
  */
 export function removeVms ({ vmIds }) {

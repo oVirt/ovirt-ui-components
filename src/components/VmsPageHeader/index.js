@@ -61,6 +61,6 @@ export default connect(
     config: state.config,
   }),
   (dispatch) => ({
-    onRefresh: () => dispatch(getAllVms()),
+    onRefresh: () => dispatch(getAllVms({ shallowFetch: false })),
   })
 )(VmsPageHeader)

@@ -1,4 +1,4 @@
-import Immutable, { List } from 'immutable'
+import Immutable, { List, Map } from 'immutable'
 
 import { logDebug, logError, hidePassword } from '../helpers'
 
@@ -15,19 +15,28 @@ function removeVms ({ state, payload: { vmIds } }) {
   return mutable.asImmutable()
 }
 
+/**
+ *
+ * @param state
+ * @param vmIdsToPreserve array
+ * @returns {*}
+ */
 function removeMissingVms ({ state, payload: { vmIdsToPreserve } }) {
-  const vmIdsToBeDeleted = state.get('vms')
-    .keySeq()
-    .filter(vmId => !vmIdsToPreserve.some(toPreserveId => toPreserveId === vmId))
-
-  const mutable = state.asMutable()
-  vmIdsToBeDeleted.forEach(vmId => mutable.deleteIn([ 'vms', vmId ]))
-  return mutable.asImmutable()
+  const newVms = vmIdsToPreserve
+    .reduce((vms, vmId) => {
+      const vm = state.getIn(['vms', vmId])
+      if (vm) {
+        vms.set(vmId, vm)
+      }
+      return vms
+    }, Map().asMutable())
+    .asImmutable()
+  return state.set('vms', newVms)
 }
 
 function setVmDisks ({ state, payload: { vmId, disks } }) {
   if (state.getIn(['vms', vmId])) {
-    return state.setIn(['vms', vmId, 'disks'], List.of(disks))
+    return state.setIn(['vms', vmId, 'disks'], List(disks))
   } else { // fail, if VM not found
     logError(`vms.updateVmDisk() reducer: vmId ${vmId} not found`)
   }
