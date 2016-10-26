@@ -8,7 +8,7 @@ import VmActions from '../VmActions'
 import VmIcon from '../VmIcon'
 import VmStatusIcon from '../VmStatusIcon'
 
-import { selectVmDetail } from '../../actions/vm'
+import { selectVmDetail } from '../../actions'
 
 /**
  * Single icon-card in the list

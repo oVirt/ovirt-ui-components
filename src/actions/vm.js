@@ -105,54 +105,6 @@ export function logout () {
   }
 }
 
-export function showLoginDialog () {
-  return {
-    type: 'SHOW_LOGIN',
-    payload: {
-    },
-  }
-}
-
-/**
- * Action triggered when user selects a vm to detailed view
- *
- * Split of selectVmDetail/setVmDetailToShow allows additional processing.
- *
- * @param vmId
- * @returns {{type: string, payload: {vmId: *}}}
- */
-export function selectVmDetail ({ vmId }) {
-  return {
-    type: 'SELECT_VM_DETAIL',
-    payload: {
-      vmId,
-    },
-  }
-}
-
-/**
- * Dispatched as a side effect of selectVmDetail() processing
- *
- * @param vmId
- * @returns {{type: string, payload: {vmId: *}}}
- */
-export function setVmDetailToShow ({ vmId }) {
-  return {
-    type: 'SET_VM_DETAIL_TO_DISPLAY',
-    payload: {
-      vmId,
-    },
-  }
-}
-
-export function closeVmDetail () {
-  return {
-    type: 'CLOSE_VM_DETAIL',
-    payload: {
-    },
-  }
-}
-
 export function clearUserMessages () {
   return {
     type: 'CLEAR_USER_MSGS',

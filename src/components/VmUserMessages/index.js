@@ -24,15 +24,29 @@ UserMessage.propTypes = {
   record: PropTypes.object.isRequired,
 }
 
-const VmUserMessages = ({ userMessages, onClearMessages }) => {
-  return (<div className='dropdown-menu infotip bottom-right'>
-    <div className={'arrow ' + style['fix-arrow-position']} />
+function isUnread (userMessages) {
+  return userMessages.get('unread')
+}
 
-    <ul className='list-group'>
-      {userMessages.get('records').map(r => (<UserMessage key={r.time} record={r} />))}
-    </ul>
-    <div className='footer'><a href='#' onClick={onClearMessages}>Clear Messages</a></div>
-  </div>)
+const VmUserMessages = ({ userMessages, onClearMessages }) => {
+  return (
+    <li className='dropdown'>
+      <a href='#' data-toggle='dropdown'>
+        <div className={isUnread(userMessages) ? style['usermsgs-unread'] : style['usermsgs-allread']}>
+          <span className='pficon pficon-info' />&nbsp;Messages
+        </div>
+      </a>
+
+      <div className='dropdown-menu infotip bottom-right'>
+        <div className={`arrow ${style['fix-arrow-position']}`} />
+
+        <ul className='list-group'>
+          {userMessages.get('records').map(r => (<UserMessage key={r.time} record={r} />))}
+        </ul>
+        <div className='footer'><a href='#' onClick={onClearMessages}>Clear Messages</a></div>
+      </div>
+    </li>
+  )
 }
 
 VmUserMessages.propTypes = {
@@ -41,7 +55,9 @@ VmUserMessages.propTypes = {
 }
 
 export default connect(
-  (state) => ({}), // TODO: userMessages
+  (state) => ({
+    userMessages: state.userMessages,
+  }),
   (dispatch) => ({
     onClearMessages: () => dispatch(clearUserMessages()),
   })

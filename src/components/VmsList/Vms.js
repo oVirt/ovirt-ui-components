@@ -4,9 +4,9 @@ import { connect } from 'react-redux'
 import style from './style.css'
 import Vm from './Vm'
 
-const Vms = ({ vms }) => {
-  const selectedVmId = vms.get('selected')
-  const containerClass = `container-fluid container-cards-pf ${style['movable-left']} ${selectedVmId ? style['moved-left'] : ''}`
+const Vms = ({ vms, visibility }) => {
+  const isDetailVisible = visibility.get('selectedVmDetail') || visibility.get('showOptions')
+  const containerClass = `container-fluid container-cards-pf ${style['movable-left']} ${isDetailVisible ? style['moved-left'] : ''}`
 
   return (
     <div className={containerClass}>
@@ -19,10 +19,12 @@ const Vms = ({ vms }) => {
 }
 Vms.propTypes = {
   vms: PropTypes.object.isRequired,
+  visibility: PropTypes.object.isRequired,
 }
 
 export default connect(
   (state) => ({
     vms: state.vms,
+    visibility: state.visibility,
   })
 )(Vms)

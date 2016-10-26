@@ -31,11 +31,8 @@ const VmDisks = ({ disks }) => {
         {disks.map(disk => <VmDisk disk={disk} key={disk.get('id')} />)}
       </ul>
     )
-  } else {
-    return (
-      <div />
-    )
   }
+  return null
 }
 VmDisks.propTypes = {
   disks: PropTypes.object,

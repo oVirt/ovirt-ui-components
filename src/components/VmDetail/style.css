@@ -1,25 +1,5 @@
-.move-left-detail { /* VM detail on the right */
-    position: fixed;
-    top: 2.5em;
-    height: 100%;
-    display: block;
-    left: 60%;
-    width: 40%;
-    opacity:1;
-    transition:opacity 0.75s ease-in-out;
-}
-
-.move-left-detail-invisible {
-    opacity: 0;
-}
-
-.move-left-close-detail {/* The Close Detail action */
-    font-size: 1.1em;
-    float: right;
-}
-
 .vm-properties {
-    font-size: 15px;
+    font-size: large;
 }
 
 dt {
@@ -45,12 +25,7 @@ dd {
 
 .vm-detail-icon { /* small VM icon on detail page*/
 }
-/*
-.console-list {
-    list-style-type: none;
-    display: inline;
-}
-*/
+
 .left-delimiter {
     padding: 0 13px 0 0;
 }

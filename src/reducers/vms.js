@@ -1,4 +1,4 @@
-import Immutable, { List, Map } from 'immutable'
+import Immutable, { Map } from 'immutable'
 
 import { logDebug, logError, hidePassword } from '../helpers'
 
@@ -36,9 +36,9 @@ function removeMissingVms ({ state, payload: { vmIdsToPreserve } }) {
 
 function setVmDisks ({ state, payload: { vmId, disks } }) {
   if (state.getIn(['vms', vmId])) {
-    return state.setIn(['vms', vmId, 'disks'], List(disks))
+    return state.setIn(['vms', vmId, 'disks'], Immutable.fromJS(disks)) // deep immutable
   } else { // fail, if VM not found
-    logError(`vms.updateVmDisk() reducer: vmId ${vmId} not found`)
+    logError(`vms.setVmDisks() reducer: vmId ${vmId} not found`)
   }
   return state
 }
@@ -73,7 +73,7 @@ function failedExternalActionVmMessage ({ state, payload }) {
  * @returns {*}
  */
 function vms (state, action) {
-  state = state || Immutable.fromJS({ vms: {}, selected: undefined, loadInProgress: true })
+  state = state || Immutable.fromJS({ vms: {}, loadInProgress: true })
   logDebug(`The 'vms' reducer action=${JSON.stringify(hidePassword({ action }))}`)
 
   switch (action.type) {
@@ -85,14 +85,10 @@ function vms (state, action) {
       return removeMissingVms({ state, payload: action.payload })
     case 'SET_VM_DISKS':
       return setVmDisks({ state, payload: action.payload })
-    case 'SET_VM_DETAIL_TO_DISPLAY':
-      return state.set('selected', action.payload.vmId)
-    case 'CLOSE_VM_DETAIL':
-      return state.delete('selected')
     case 'VM_ACTION_IN_PROGRESS':
       return state.setIn(['vms', action.payload.vmId, 'actionInProgress', action.payload.name], action.payload.started)
     case 'SET_VM_CONSOLES':
-      return state.setIn(['vms', action.payload.vmId, 'consoles'], action.payload.consoles) // JS object, not immutable
+      return state.setIn(['vms', action.payload.vmId, 'consoles'], Immutable.fromJS(action.payload.consoles))
     case 'LOGOUT': // see the config() reducer
       return state.set('vms', Immutable.fromJS({}))
     case 'SET_LOAD_IN_PROGRESS':
