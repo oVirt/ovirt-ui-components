@@ -1,11 +1,11 @@
-import Immutable from 'immutable'
+import Immutable, { List, Map } from 'immutable'
 
 import { logDebug, logError, hidePassword } from '../helpers'
 
 function updateOrAddVm ({ state, payload: { vms } }) {
   const updates = {}
   vms.forEach(vm => { updates[vm.id] = vm })
-  const imUpdates = Immutable.fromJS(updates) // TODO: do we need deep-immutable?? So far not ...
+  const imUpdates = Immutable.fromJS(updates)
   return state.mergeIn(['vms'], imUpdates)
 }
 
@@ -15,9 +15,28 @@ function removeVms ({ state, payload: { vmIds } }) {
   return mutable.asImmutable()
 }
 
-function updateVmDisk ({ state, payload: { vmId, disk } }) {
+/**
+ *
+ * @param state
+ * @param vmIdsToPreserve array
+ * @returns {*}
+ */
+function removeMissingVms ({ state, payload: { vmIdsToPreserve } }) {
+  const newVms = vmIdsToPreserve
+    .reduce((vms, vmId) => {
+      const vm = state.getIn(['vms', vmId])
+      if (vm) {
+        vms.set(vmId, vm)
+      }
+      return vms
+    }, Map().asMutable())
+    .asImmutable()
+  return state.set('vms', newVms)
+}
+
+function setVmDisks ({ state, payload: { vmId, disks } }) {
   if (state.getIn(['vms', vmId])) {
-    return state.setIn(['vms', vmId, 'disks', disk.id], disk)
+    return state.setIn(['vms', vmId, 'disks'], List(disks))
   } else { // fail, if VM not found
     logError(`vms.updateVmDisk() reducer: vmId ${vmId} not found`)
   }
@@ -62,9 +81,11 @@ function vms (state, action) {
       return updateOrAddVm({ state, payload: action.payload })
     case 'REMOVE_VMS':
       return removeVms({ state, payload: action.payload })
-    case 'UPDATE_VM_DISK':
-      return updateVmDisk({ state, payload: action.payload })
-    case 'SELECT_VM_DETAIL':
+    case 'REMOVE_MISSING_VMS':
+      return removeMissingVms({ state, payload: action.payload })
+    case 'SET_VM_DISKS':
+      return setVmDisks({ state, payload: action.payload })
+    case 'SET_VM_DETAIL_TO_DISPLAY':
       return state.set('selected', action.payload.vmId)
     case 'CLOSE_VM_DETAIL':
       return state.delete('selected')
