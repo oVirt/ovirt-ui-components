@@ -11,11 +11,6 @@ const Options = () => {
   )
 }
 Options.propTypes = {
-
 }
 
-export default connect(
-  (state) => ({
-  })
-)(Options)
-
+export default connect()(Options)
