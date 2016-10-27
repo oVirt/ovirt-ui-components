@@ -3,8 +3,8 @@
     top: 2.5em;
     height: 100%;
     display: block;
-    left: 60%;
-    width: 40%;
+    left: 50%;
+    width: 50%;
     opacity:1;
     transition:opacity 0.75s ease-in-out;
 }
