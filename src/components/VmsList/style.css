@@ -1,20 +1,11 @@
-.move-left { /* go to the left */
-    transition: transform 1.5s;
-    transform: perspective(1000px) rotateY(50deg);
+.movable-left { /* general transition properties */
+    transition: transform 0.6s;
     transform-origin: 0 50%;
-}
-
-.return-from-left { /* go back to normal (no detail visible) */
-    transition-duration: 0.7s;
     transition-timing-function: ease-out;
 }
 
-.move-left-background {
-    background-color: inherit; /* #c2c2c2; */
-}
-
-.return-from-left-background {
-    background-color: inherit;
+.moved-left { /* altered state */
+    transform: perspective(1000px) rotateY(50deg);
 }
 
 .card-pf-icon {
