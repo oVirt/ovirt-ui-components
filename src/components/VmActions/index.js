@@ -6,37 +6,66 @@ import style from './style.css'
 import { canRestart, canShutdown, canStart, canConsole, canSuspend } from '../../vm-status'
 import { getConsole, shutdownVm, restartVm, suspendVm, startVm } from '../../actions/vm'
 
-const Button = ({ render = true, className, tooltip = '', actionDisabled = false, isOnCard, onClick }) => {
-  if (!render) {
-    return null
+class Button extends React.Component {
+  constructor (props) {
+    super(props)
+    this.state = { toBeConfirmed: false }
   }
 
-  if (actionDisabled) {
-    className = `${className} ${style['action-disabled']}`
-    onClick = undefined
-  }
+  render () {
+    let { render = true, className, tooltip = '', actionDisabled = false, isOnCard, onClick, confirmRequired } = this.props
 
-  if (isOnCard) {
+    const toggleConfirm = () => {
+      this.setState({ toBeConfirmed: !this.state.toBeConfirmed })
+    }
+
+    if (!render) {
+      return null
+    }
+
+    if (confirmRequired && this.state.toBeConfirmed) {
+      return (
+        <span className={isOnCard ? 'card-pf-item' : style['left-delimiter']}>
+          <button className='btn btn-danger btn-xs' type='button' onClick={() => { toggleConfirm(); onClick() }}>
+            {confirmRequired.confirmText}
+          </button>
+          &nbsp;
+          <button className='btn btn-primary btn-xs' type='button' onClick={toggleConfirm}>
+            {confirmRequired.cancelText}
+          </button>
+        </span>
+      )
+    } else if (confirmRequired) {
+      onClick = toggleConfirm
+    }
+
+    if (actionDisabled) {
+      className = `${className} ${style['action-disabled']}`
+      onClick = undefined
+    }
+
+    if (isOnCard) {
+      return (
+        <div className='card-pf-item'>
+          <span className={className} data-toggle='tooltip' data-placement='left' title={tooltip} onClick={onClick} />
+        </div>
+      )
+    }
+
+    if (actionDisabled) {
+      return (
+        <span className={style['left-delimiter']}>
+          <span className={className} data-toggle='tooltip' data-placement='left' title={tooltip} />
+        </span>
+      )
+    }
+
     return (
-      <div className='card-pf-item'>
-        <span className={className} data-toggle='tooltip' data-placement='left' title={tooltip} onClick={onClick} />
-      </div>
-    )
-  }
-
-  if (actionDisabled) {
-    return (
-      <span className={style['left-delimiter']}>
+      <a href='#' onClick={onClick} className={style['left-delimiter']}>
         <span className={className} data-toggle='tooltip' data-placement='left' title={tooltip} />
-      </span>
+      </a>
     )
   }
-
-  return (
-    <a href='#' onClick={onClick} className={style['left-delimiter']}>
-      <span className={className} data-toggle='tooltip' data-placement='left' title={tooltip} />
-    </a>
-  )
 }
 Button.propTypes = {
   render: PropTypes.bool.isRequired,
@@ -45,6 +74,7 @@ Button.propTypes = {
   onClick: PropTypes.func,
   actionDisabled: PropTypes.bool,
   isOnCard: PropTypes.bool.isRequired,
+  confirmRequired: PropTypes.object,
 }
 
 const EmptyAction = ({ state, isOnCard }) => {
@@ -67,19 +97,34 @@ EmptyAction.propTypes = {
 const VmActions = ({ vm, isOnCard = false, onGetConsole, onShutdown, onRestart, onStart, onSuspend }) => {
   const status = vm.get('status')
 
+  const confirmShutdown = {
+    confirmText: 'Shut down?',
+    cancelText: 'Cancel',
+  }
+
+  const confirmRestart = {
+    confirmText: 'Restart?',
+    cancelText: 'Cancel',
+  }
+
+  const confirmSuspend = {
+    confirmText: 'Suspend?',
+    cancelText: 'Cancel',
+  }
+
   return (
     <div className={`${isOnCard ? 'card-pf-items' : ''} text-center`}>
       <EmptyAction state={status} isOnCard={isOnCard} />
       <Button isOnCard={isOnCard} render={canConsole(status)} actionDisabled={vm.getIn(['actionInProgress', 'getConsole'])}
-        className='pficon pficon-screen' tooltip='Click to get console' onClick={onGetConsole} />
+        className='pficon pficon-screen' tooltip='Click to get default console' onClick={onGetConsole} />
       <Button isOnCard={isOnCard} render={canShutdown(status)} actionDisabled={vm.getIn(['actionInProgress', 'shutdown'])}
-        className='fa fa-power-off' tooltip='Click to shut down the VM' onClick={onShutdown} />
+        className='fa fa-power-off' tooltip='Click to shut down the VM' onClick={onShutdown} confirmRequired={confirmShutdown} />
       <Button isOnCard={isOnCard} render={canRestart(status)} actionDisabled={vm.getIn(['actionInProgress', 'restart'])}
-        className='pficon pficon-restart' tooltip='Click to reboot the VM' onClick={onRestart} />
+        className='pficon pficon-restart' tooltip='Click to reboot the VM' onClick={onRestart} confirmRequired={confirmRestart} />
       <Button isOnCard={isOnCard} render={canStart(status)} actionDisabled={vm.getIn(['actionInProgress', 'start'])}
         className='fa fa-play' tooltip='Click to start the VM' onClick={onStart} />
       <Button isOnCard={isOnCard} render={canSuspend(status)} actionDisabled={vm.getIn(['actionInProgress', 'suspend'])}
-        className='fa fa-pause' tooltip='Click to suspend the VM' onClick={onSuspend} />
+        className='fa fa-pause' tooltip='Click to suspend the VM' onClick={onSuspend} confirmRequired={confirmSuspend} />
     </div>
   )
 }

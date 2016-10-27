@@ -1,15 +1,21 @@
 import React, { PropTypes } from 'react'
 import { connect } from 'react-redux'
 
-import { logout, showLoginDialog, clearUserMessages } from '../../actions/vm'
+import { logout, showLoginDialog, toggleOptions, clearUserMessages } from '../../actions'
 
 import style from './style.css'
 
-const LoginMenu = ({ config, onLogout, onLogin }) => {
+const UserMenu = ({ config, onLogout, onLogin }) => {
+/* TODO: allow 'Options' in the menu
+ <li>
+ <a href='#' onClick={onOptions}>Options</a>
+ </li>
+ <li className='divider' />
+ */
   if (config.get('loginToken')) {
     return (
       <li className='dropdown'>
-        <a className={'dropdown-toggle ' + style['user-name']} data-toggle='dropdown' href='#'>
+        <a className={`dropdown-toggle ${style['user-name']}`} data-toggle='dropdown' href='#'>
           <i className='fa fa-sign-out' aria-hidden='true' />&nbsp;
           {config.getIn(['user', 'name'])}
           <b className='caret' />
@@ -32,10 +38,11 @@ const LoginMenu = ({ config, onLogout, onLogin }) => {
     </li>
   )
 }
-LoginMenu.propTypes = {
+UserMenu.propTypes = {
   config: PropTypes.object.isRequired,
   onLogout: PropTypes.func.isRequired,
   onLogin: PropTypes.func.isRequired,
+  onOptions: PropTypes.func.isRequired,
 }
 
 export default connect(
@@ -46,5 +53,6 @@ export default connect(
     onClearMessages: () => dispatch(clearUserMessages()),
     onLogout: () => dispatch(logout()),
     onLogin: () => dispatch(showLoginDialog()),
+    onOptions: () => dispatch(toggleOptions()),
   })
-)(LoginMenu)
+)(UserMenu)
