@@ -12,6 +12,7 @@ import VmDisks from '../VmDisks'
 import Time from '../Time'
 import VmActions from '../VmActions'
 import DetailContainer from '../DetailContainer'
+import VmStatusIcon from '../VmStatusIcon'
 
 const LastMessage = ({ vmId, userMessages }) => {
   const vmMessages = userMessages.get('records')
@@ -81,19 +82,19 @@ class VmDetail extends Component {
         <dl className={style['vm-properties']}>
           <dt>Description</dt>
           <dd>{vm.get('description')}</dd>
-          <dt>Operating System</dt>
+          <dt><span className='' /> Operating System</dt>
           <dd>{vm.getIn(['os', 'type'])}</dd>
           <dt>State</dt>
-          <dd>{vm.get('status')}</dd>
-          <dt>Defined Memory</dt>
+          <dd><VmStatusIcon state={vm.get('status')} /> {vm.get('status')}</dd>
+          <dt><span className='pficon pficon-memory' /> Defined Memory</dt>
           <dd>{userFormatOfBytes(vm.getIn(['memory', 'total'])).str}</dd>
-          <dt>CPUs</dt>
+          <dt><span className='pficon pficon-cpu' /> CPUs</dt>
           <dd>{vm.getIn(['cpu', 'vCPUs'])}</dd>
-          <dt>Address</dt>
+          <dt><span className='pficon pficon-network' /> Address</dt>
           <dd>{vm.get('fqdn')}</dd>
           <dt><span className='pficon pficon-screen' /> Console</dt>
           <VmConsoles vm={vm} onConsole={onConsole} />
-          <dt>Disks</dt>
+          <dt><span className='fa  fa-database' /> Disks</dt>
           <dd><VmDisks disks={disks} /></dd>
         </dl>
       </DetailContainer>
