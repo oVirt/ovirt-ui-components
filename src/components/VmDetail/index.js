@@ -56,6 +56,11 @@ VmConsoles.propTypes = {
 }
 
 class VmDetail extends Component {
+  constructor (props) {
+    super(props)
+    this.state = { renderDisks: true }
+  }
+
   render () {
     const { vm, icons, userMessages, onConsole } = this.props
 
@@ -70,6 +75,9 @@ class VmDetail extends Component {
     const iconId = vm.getIn(['icons', 'small', 'id'])
     const icon = icons.get(iconId)
     const disks = vm.get('disks')
+
+    const onToggleRenderDisks = () => { this.setState({ renderDisks: !this.state.renderDisks }) }
+    const disksElement = this.state.renderDisks ? (<VmDisks disks={disks} />) : ''
 
     return (
       <DetailContainer>
@@ -94,8 +102,13 @@ class VmDetail extends Component {
           <dd>{vm.get('fqdn')}</dd>
           <dt><span className='pficon pficon-screen' /> Console</dt>
           <VmConsoles vm={vm} onConsole={onConsole} />
-          <dt><span className='fa  fa-database' /> Disks</dt>
-          <dd><VmDisks disks={disks} /></dd>
+          <dt><span className='fa  fa-database' /> Disks
+            &nbsp;
+            <small>
+              (<a href='#' onClick={onToggleRenderDisks}>{this.state.renderDisks ? 'hide' : 'show'}</a>)
+            </small>
+          </dt>
+          <dd>{disksElement}</dd>
         </dl>
       </DetailContainer>
     )
