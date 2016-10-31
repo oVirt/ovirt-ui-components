@@ -9,3 +9,11 @@
 .fix-arrow-position {
     left: 97% !important;
 }
+
+.usermsgs-unread {
+    color: red;
+    font-weight: bold;
+}
+
+.usermsgs-allread {
+}
