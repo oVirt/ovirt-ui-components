@@ -3,7 +3,7 @@ export function canStart (state) {
 }
 
 export function canShutdown (state) {
-  return canRestart(state) || state === 'reboot_in_progress'
+  return canRestart(state) || state === 'reboot_in_progress' || state === 'paused'
 }
 
 export function canRestart (state) {
@@ -11,7 +11,7 @@ export function canRestart (state) {
 }
 
 export function canSuspend (state) {
-  return state && (state === 'up')
+  return state && (state === 'up' || state === 'paused')
 }
 
 export function canConsole (state) {
