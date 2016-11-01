@@ -28,6 +28,7 @@
     height: 100%;
     position: absolute;
     top: 0px;
-    opacity: 0.05;
-    background-color: black;
+    opacity: 0.3;
+    background-color: lightgrey;
+    border-style: solid;
 }
