@@ -8,7 +8,9 @@ import { closeDetail } from '../../actions'
 
 const Vms = ({ vms, visibility, onCloseDetail }) => {
   const isDetailVisible = visibility.get('selectedVmDetail') || visibility.get('showOptions')
-  const containerClass = `container-fluid container-cards-pf ${style['movable-left']} ${isDetailVisible ? style['moved-left'] : ''}`
+//  const containerClass = `container-fluid container-cards-pf ${style['movable-left']} ${isDetailVisible ? style['moved-left'] : ''}`
+  const containerClass = ['container-fluid', 'container-cards-pf', style['movable-left'],
+    isDetailVisible ? style['moved-left'] : undefined].join(' ')
 
   // The overlayingDiv disables actions of inner components and grays-out the list
   const overlayingDiv = isDetailVisible ? (<div className={style['overlay']} onClick={onCloseDetail} />) : ''

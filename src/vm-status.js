@@ -11,7 +11,7 @@ export function canRestart (state) {
 }
 
 export function canSuspend (state) {
-  return state && (state === 'up' || state === 'paused')
+  return state && (state === 'up')
 }
 
 export function canConsole (state) {

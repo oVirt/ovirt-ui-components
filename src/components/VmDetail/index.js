@@ -102,7 +102,7 @@ class VmDetail extends Component {
           <dd>{vm.get('fqdn')}</dd>
           <dt><span className='pficon pficon-screen' /> Console</dt>
           <VmConsoles vm={vm} onConsole={onConsole} />
-          <dt><span className='fa  fa-database' /> Disks
+          <dt><span className='fa fa-database' /> Disks
             &nbsp;
             <small>
               (<a href='#' onClick={onToggleRenderDisks}>{this.state.renderDisks ? 'hide' : 'show'}</a>)
