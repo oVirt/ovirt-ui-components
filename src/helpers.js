@@ -8,15 +8,21 @@ export function logDebug (msg) {
 export function logError (msg) {
   console.log(msg)
 }
-
+// "payload":{"message":"Not Found","shortMessage":"LOGIN failed","type":404,"action":{"type":"LOGIN","payload":{"credentials":{"username":"admin@internal","password":"admi"}}}}}
 export function hidePassword ({ action, param }) {
   if (action) {
-    if (action['payload'] && action.payload['credentials'] && action.payload.credentials['password']) {
-      const hidden = JSON.parse(JSON.stringify(action))
-      hidden.payload.credentials.password = '*****'
-      return hidden
+    const hidden = JSON.parse(JSON.stringify(action))
+    if (action.payload) {
+      if (action.payload.credentials && action.payload.credentials.password) {
+        hidden.payload.credentials.password = '*****'
+      }
+
+      if (action.payload.action && action.payload.action.payload &&
+        action.payload.action.payload.credentials && action.payload.action.payload.credentials.password) {
+        hidden.payload.action.payload.credentials.password = '*****'
+      }
     }
-    return action
+    return hidden
   }
 
   if (param) {
