@@ -126,11 +126,12 @@ export function loadInProgress ({ value }) {
  * @param vms - array of vms
  * @returns {{type: string, payload: {vms: *}}}
  */
-export function updateVms ({ vms }) {
+export function updateVms ({ vms, copySubResources = false }) {
   return {
     type: 'UPDATE_VMS',
     payload: {
       vms,
+      copySubResources,
     },
   }
 }
