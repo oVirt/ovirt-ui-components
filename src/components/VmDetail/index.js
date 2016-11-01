@@ -83,7 +83,7 @@ class VmDetail extends Component {
       <DetailContainer>
         <h1>
           <VmIcon icon={icon} missingIconClassName='pficon pficon-virtual-machine' className={style['vm-detail-icon']} />
-          {vm.get('name')}
+          &nbsp;{vm.get('name')}
         </h1>
         <VmActions vm={vm} userMessages={userMessages} />
         <LastMessage vmId={vm.get('id')} userMessages={userMessages} />
