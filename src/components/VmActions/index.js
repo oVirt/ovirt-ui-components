@@ -13,14 +13,10 @@ class Button extends React.Component {
   }
 
   render () {
-    let { render = true, className, tooltip = '', actionDisabled = false, isOnCard, onClick, confirmRequired } = this.props
+    let { className, tooltip = '', actionDisabled = false, isOnCard, onClick, confirmRequired } = this.props
 
     const toggleConfirm = () => {
       this.setState({ toBeConfirmed: !this.state.toBeConfirmed })
-    }
-
-    if (!render) {
-      return null
     }
 
     if (confirmRequired && this.state.toBeConfirmed) {
@@ -68,7 +64,6 @@ class Button extends React.Component {
   }
 }
 Button.propTypes = {
-  render: PropTypes.bool.isRequired,
   className: PropTypes.string.isRequired,
   tooltip: PropTypes.string,
   onClick: PropTypes.func,
@@ -115,16 +110,16 @@ const VmActions = ({ vm, isOnCard = false, onGetConsole, onShutdown, onRestart, 
   return (
     <div className={isOnCard ? 'card-pf-items text-center' : style['left-padding']}>
       <EmptyAction state={status} isOnCard={isOnCard} />
-      <Button isOnCard={isOnCard} render={canConsole(status)} actionDisabled={vm.getIn(['actionInProgress', 'getConsole'])}
-        className='pficon pficon-screen' tooltip='Click to get default console' onClick={onGetConsole} />
-      <Button isOnCard={isOnCard} render={canShutdown(status)} actionDisabled={vm.getIn(['actionInProgress', 'shutdown'])}
-        className='fa fa-power-off' tooltip='Click to shut down the VM' onClick={onShutdown} confirmRequired={confirmShutdown} />
-      <Button isOnCard={isOnCard} render={canRestart(status)} actionDisabled={vm.getIn(['actionInProgress', 'restart'])}
-        className='pficon pficon-restart' tooltip='Click to reboot the VM' onClick={onRestart} confirmRequired={confirmRestart} />
-      <Button isOnCard={isOnCard} render={canStart(status)} actionDisabled={vm.getIn(['actionInProgress', 'start'])}
-        className='fa fa-play' tooltip='Click to start the VM' onClick={onStart} />
-      <Button isOnCard={isOnCard} render={canSuspend(status)} actionDisabled={vm.getIn(['actionInProgress', 'suspend'])}
-        className='fa fa-pause' tooltip='Click to suspend the VM' onClick={onSuspend} confirmRequired={confirmSuspend} />
+      <Button isOnCard={isOnCard} actionDisabled={!canConsole(status) || vm.getIn(['actionInProgress', 'getConsole'])}
+        className='pficon pficon-screen' tooltip='Get default console' onClick={onGetConsole} />
+      <Button isOnCard={isOnCard} actionDisabled={!canShutdown(status) || vm.getIn(['actionInProgress', 'shutdown'])}
+        className='fa fa-power-off' tooltip='Shut down the VM' onClick={onShutdown} confirmRequired={confirmShutdown} />
+      <Button isOnCard={isOnCard} actionDisabled={!canRestart(status) || vm.getIn(['actionInProgress', 'restart'])}
+        className='pficon pficon-restart' tooltip='Reboot the VM' onClick={onRestart} confirmRequired={confirmRestart} />
+      <Button isOnCard={isOnCard} actionDisabled={!canStart(status) || vm.getIn(['actionInProgress', 'start'])}
+        className='fa fa-play' tooltip='Start the VM' onClick={onStart} />
+      <Button isOnCard={isOnCard} actionDisabled={!canSuspend(status) || vm.getIn(['actionInProgress', 'suspend'])}
+        className='fa fa-pause' tooltip='Suspend the VM' onClick={onSuspend} confirmRequired={confirmSuspend} />
     </div>
   )
 }
