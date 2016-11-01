@@ -61,10 +61,10 @@ const LoadingData = () => {
   )
 }
 
-const VmsList = ({ vms, icons, config }) => {
+const VmsList = ({ vms, config }) => {
   if (vms.get('vms') && !vms.get('vms').isEmpty()) {
     return (
-      <Vms vms={vms} icons={icons} />
+      <Vms />
     )
   } else if (!config.get('loginToken')) { // login is missing
     return (
@@ -88,14 +88,12 @@ const VmsList = ({ vms, icons, config }) => {
 }
 VmsList.propTypes = {
   vms: PropTypes.object.isRequired,
-  icons: PropTypes.object.isRequired,
   config: PropTypes.object.isRequired,
 }
 
 export default connect(
   (state) => ({
     vms: state.vms,
-    icons: state.icons,
     config: state.config,
   })
 )(VmsList)

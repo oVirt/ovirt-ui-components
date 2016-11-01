@@ -12,6 +12,7 @@ import VmDisks from '../VmDisks'
 import Time from '../Time'
 import VmActions from '../VmActions'
 import DetailContainer from '../DetailContainer'
+import VmStatusIcon from '../VmStatusIcon'
 
 const LastMessage = ({ vmId, userMessages }) => {
   const vmMessages = userMessages.get('records')
@@ -55,6 +56,11 @@ VmConsoles.propTypes = {
 }
 
 class VmDetail extends Component {
+  constructor (props) {
+    super(props)
+    this.state = { renderDisks: true }
+  }
+
   render () {
     const { vm, icons, userMessages, onConsole } = this.props
 
@@ -70,31 +76,39 @@ class VmDetail extends Component {
     const icon = icons.get(iconId)
     const disks = vm.get('disks')
 
+    const onToggleRenderDisks = () => { this.setState({ renderDisks: !this.state.renderDisks }) }
+    const disksElement = this.state.renderDisks ? (<VmDisks disks={disks} />) : ''
+
     return (
       <DetailContainer>
         <h1>
           <VmIcon icon={icon} missingIconClassName='pficon pficon-virtual-machine' className={style['vm-detail-icon']} />
-          {vm.get('name')}
+          &nbsp;{vm.get('name')}
         </h1>
         <VmActions vm={vm} userMessages={userMessages} />
         <LastMessage vmId={vm.get('id')} userMessages={userMessages} />
         <dl className={style['vm-properties']}>
           <dt>Description</dt>
           <dd>{vm.get('description')}</dd>
-          <dt>Operating System</dt>
+          <dt><span className='' /> Operating System</dt>
           <dd>{vm.getIn(['os', 'type'])}</dd>
           <dt>State</dt>
-          <dd>{vm.get('status')}</dd>
-          <dt>Defined Memory</dt>
+          <dd><VmStatusIcon state={vm.get('status')} /> {vm.get('status')}</dd>
+          <dt><span className='pficon pficon-memory' /> Defined Memory</dt>
           <dd>{userFormatOfBytes(vm.getIn(['memory', 'total'])).str}</dd>
-          <dt>CPUs</dt>
+          <dt><span className='pficon pficon-cpu' /> CPUs</dt>
           <dd>{vm.getIn(['cpu', 'vCPUs'])}</dd>
-          <dt>Address</dt>
+          <dt><span className='pficon pficon-network' /> Address</dt>
           <dd>{vm.get('fqdn')}</dd>
           <dt><span className='pficon pficon-screen' /> Console</dt>
           <VmConsoles vm={vm} onConsole={onConsole} />
-          <dt>Disks</dt>
-          <dd><VmDisks disks={disks} /></dd>
+          <dt><span className='fa fa-database' /> Disks
+            &nbsp;
+            <small>
+              (<a href='#' onClick={onToggleRenderDisks}>{this.state.renderDisks ? 'hide' : 'show'}</a>)
+            </small>
+          </dt>
+          <dd>{disksElement}</dd>
         </dl>
       </DetailContainer>
     )

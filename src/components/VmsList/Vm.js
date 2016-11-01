@@ -32,7 +32,9 @@ const Vm = ({ vm, icons, onSelectVm }) => {
               missingIconClassName='fa fa-birthday-cake card-pf-icon-circle' />
           </div>
           <h2 className='card-pf-title text-center' onClick={onSelectVm}>
-            <VmStatusIcon state={state} />&nbsp;{vm.get('name')}
+            <p className={[style['vm-name'], style['crop']].join(' ')} title={vm.get('name')} data-toggle='tooltip'>
+              <VmStatusIcon state={state} />&nbsp;{vm.get('name')}
+            </p>
           </h2>
 
           <VmActions vm={vm} isOnCard />

@@ -2,9 +2,16 @@ import Immutable, { Map } from 'immutable'
 
 import { logDebug, logError, hidePassword } from '../helpers'
 
-function updateOrAddVm ({ state, payload: { vms } }) {
+function updateOrAddVm ({ state, payload: { vms, copySubResources } }) {
+  const emptyMap = Map()
   const updates = {}
-  vms.forEach(vm => { updates[vm.id] = vm })
+  vms.forEach(vm => {
+    updates[vm.id] = vm
+    if (copySubResources) {
+      updates[vm.id].disks = state.getIn(['vms', vm.id, 'disks'], emptyMap).toJS()
+      updates[vm.id].consoles = state.getIn(['vms', vm.id, 'consoles'], emptyMap).toJS()
+    }
+  })
   const imUpdates = Immutable.fromJS(updates)
   return state.mergeIn(['vms'], imUpdates)
 }
