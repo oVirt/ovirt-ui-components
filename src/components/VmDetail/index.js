@@ -90,7 +90,7 @@ class VmDetail extends Component {
         <dl className={style['vm-properties']}>
           <dt>Description</dt>
           <dd>{vm.get('description')}</dd>
-          <dt><span className='' /> Operating System</dt>
+          <dt>Operating System</dt>
           <dd>{vm.getIn(['os', 'type'])}</dd>
           <dt>State</dt>
           <dd><VmStatusIcon state={vm.get('status')} /> {vm.get('status')}</dd>
