@@ -8,20 +8,27 @@ import { closeDetail } from '../../actions'
 
 const Vms = ({ vms, visibility, onCloseDetail }) => {
   const isDetailVisible = visibility.get('selectedVmDetail') || visibility.get('showOptions')
-//  const containerClass = `container-fluid container-cards-pf ${style['movable-left']} ${isDetailVisible ? style['moved-left'] : ''}`
   const containerClass = ['container-fluid', 'container-cards-pf', style['movable-left'],
-    isDetailVisible ? style['moved-left'] : undefined].join(' ')
+    isDetailVisible ? style['moved-left'] : ''].join(' ')
 
-  // The overlayingDiv disables actions of inner components and grays-out the list
-  const overlayingDiv = isDetailVisible ? (<div className={style['overlay']} onClick={onCloseDetail} />) : ''
+  const closeDetail = isDetailVisible
+    ? (event) => {
+      onCloseDetail()
+      event.stopPropagation()
+    }
+    : undefined
 
   return (
-    <div className={containerClass}>
-      <div className='row row-cards-pf'>
-        {vms.get('vms').toList().map(vm =>
-          <Vm vm={vm} key={vm.get('id')} />)}
+    <div onClickCapture={closeDetail}>
+      <div className={containerClass}>
+        <div className={style['scrollingWrapper']}>
+          <div className='row row-cards-pf'>
+            {vms.get('vms').toList().map(vm =>
+              <Vm vm={vm} key={vm.get('id')} />)}
+          </div>
+          <div className={style['overlay']} />
+        </div>
       </div>
-      {overlayingDiv}
     </div>
   )
 }
