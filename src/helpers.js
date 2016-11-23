@@ -1,13 +1,32 @@
 import { Blob } from 'blob-util'
 
-// TODO: configurable logging
-export function logDebug (msg) {
-  console.log(msg)
+let logDebugEnabled = true
+
+/**
+ * @param enabled true if logDebug() shall write messages to the console
+ */
+export function setLogDebug (enabled) {
+  logDebugEnabled = enabled
 }
 
-export function logError (msg) {
-  console.log(msg)
+/**
+ * Write DEBUG log message to console
+ * @param msg
+ */
+export function logDebug (msg) {
+  if (logDebugEnabled) {
+    console.log(msg)
+  }
 }
+
+/**
+ * Write ERROR log message to console
+ * @param msg
+ */
+export function logError (msg) {
+  console.log(`Error: ${msg}`)
+}
+
 // "payload":{"message":"Not Found","shortMessage":"LOGIN failed","type":404,"action":{"type":"LOGIN","payload":{"credentials":{"username":"admin@internal","password":"admi"}}}}}
 export function hidePassword ({ action, param }) {
   if (action) {
