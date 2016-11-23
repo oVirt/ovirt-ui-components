@@ -9,6 +9,7 @@
   "scripts": {
     "start": "cd showcase && webpack-dev-server --inline --open",
     "build": "webpack",
+    "build:watch": "webpack --watch",
     "prebuild": "npm run test",
     "pretest": "eslint webpack.config.js src showcase samples/**/src",
     "test": "jest --no-watchman",
