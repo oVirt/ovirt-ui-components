@@ -1,6 +1,6 @@
 {
   "name": "ovirt-ui-components",
-  "version": "0.0.9",
+  "version": "0.1.0",
   "description": "Reusable components for Open Virtualization UIs",
   "main": "dist/ovirt-ui-components.js",
   "files": [
