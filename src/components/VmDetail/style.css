@@ -21,6 +21,7 @@ dd {
     max-width: 1000px;
     overflow: hidden;
     text-overflow: ellipsis;
+    padding-top: 2px;
 }
 
 .vm-detail-icon { /* small VM icon on detail page*/
