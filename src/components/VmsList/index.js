@@ -6,6 +6,8 @@ import Vms from './Vms'
 
 /**
  * Data are fetched but no VM is available to display
+ *
+ * TODO: make use of New VM Dialog once this component is ready
  */
 const NoVm = () => {
   return (
@@ -17,14 +19,8 @@ const NoVm = () => {
         No VM available
       </h1>
       <p>
-        No VM can is available for the logged user.
+        No VM is available for the logged user.
       </p>
-      <p>
-        Learn more about this <a href='#'>on the documentation</a>.
-      </p>
-      <div className='blank-slate-pf-main-action'>
-        <button className='btn btn-primary btn-lg'>TODO: Action</button>
-      </div>
     </div>
   )
 }
@@ -97,4 +93,3 @@ export default connect(
     config: state.config,
   })
 )(VmsList)
-
