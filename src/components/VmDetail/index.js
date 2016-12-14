@@ -65,11 +65,6 @@ class VmDetail extends Component {
     const { vm, icons, userMessages, onConsole } = this.props
 
     if (!vm) {
-      /*
-      return (
-       <div className={sharedStyle['move-left-detail-invisible']} />
-       )
-       */
       return null
     }
     const iconId = vm.getIn(['icons', 'small', 'id'])
@@ -78,6 +73,7 @@ class VmDetail extends Component {
 
     const onToggleRenderDisks = () => { this.setState({ renderDisks: !this.state.renderDisks }) }
     const disksElement = this.state.renderDisks ? (<VmDisks disks={disks} />) : ''
+    const hasDisks = disks.size > 0
 
     return (
       <DetailContainer>
@@ -102,10 +98,12 @@ class VmDetail extends Component {
           <dd>{vm.get('fqdn')}</dd>
           <dt><span className='pficon pficon-screen' /> Console</dt>
           <VmConsoles vm={vm} onConsole={onConsole} />
-          <dt><span className='fa fa-database' /> Disks
-            &nbsp;
+          <dt><span className='fa fa-database' /> Disks&nbsp;
             <small>
-              (<a href='#' onClick={onToggleRenderDisks}>{this.state.renderDisks ? 'hide' : 'show'}</a>)
+              ({hasDisks
+                ? (<a href='#' onClick={onToggleRenderDisks}>{this.state.renderDisks ? 'hide' : 'show'}</a>)
+                : 'no disks'
+              })
             </small>
           </dt>
           <dd>{disksElement}</dd>
