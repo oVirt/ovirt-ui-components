@@ -76,6 +76,15 @@ export function suspendVm ({ vmId }) {
   }
 }
 
+export function editVm ({ vm }) {
+  return {
+    type: 'SHOW_EDIT_VM',
+    payload: {
+      vm,
+    },
+  }
+}
+
 // --- Internal State -------------------------
 export function loginSuccessful ({ token, username }) {
   return {

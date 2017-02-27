@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import style from './style.css'
 
 import { canRestart, canShutdown, canStart, canConsole, canSuspend } from '../../vm-status'
-import { getConsole, shutdownVm, restartVm, suspendVm, startVm } from '../../actions/vm'
+import { getConsole, shutdownVm, restartVm, suspendVm, startVm, editVm } from '../../actions/vm'
 
 class Button extends React.Component {
   constructor (props) {
@@ -89,7 +89,7 @@ EmptyAction.propTypes = {
  * Active actions on a single VM-card.
  * List of actions depends on the VM state.
  */
-const VmActions = ({ vm, isOnCard = false, onGetConsole, onShutdown, onRestart, onStart, onSuspend }) => {
+const VmActions = ({ vm, isOnCard = false, onGetConsole, onShutdown, onRestart, onStart, onSuspend, onEdit }) => {
   const status = vm.get('status')
 
   const confirmShutdown = {
@@ -120,6 +120,8 @@ const VmActions = ({ vm, isOnCard = false, onGetConsole, onShutdown, onRestart, 
         className='fa fa-play' tooltip='Start the VM' onClick={onStart} />
       <Button isOnCard={isOnCard} actionDisabled={!canSuspend(status) || vm.getIn(['actionInProgress', 'suspend'])}
         className='fa fa-pause' tooltip='Suspend the VM' onClick={onSuspend} confirmRequired={confirmSuspend} />
+      <Button isOnCard={isOnCard}
+        className='pficon pficon-edit' tooltip='Edit the VM' onClick={onEdit} />
     </div>
   )
 }
@@ -131,6 +133,7 @@ VmActions.propTypes = {
   onRestart: PropTypes.func.isRequired,
   onStart: PropTypes.func.isRequired,
   onSuspend: PropTypes.func.isRequired,
+  onEdit: PropTypes.func.isRequired,
 }
 
 export default connect(
@@ -143,5 +146,6 @@ export default connect(
     onRestart: () => dispatch(restartVm({ vmId: vm.get('id'), force: false })),
     onStart: () => dispatch(startVm({ vmId: vm.get('id') })),
     onSuspend: () => dispatch(suspendVm({ vmId: vm.get('id') })),
+    onEdit: () => dispatch(editVm({ vm: vm })),
   })
 )(VmActions)
