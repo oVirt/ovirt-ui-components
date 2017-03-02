@@ -5,7 +5,7 @@ Reusable components for UIs related to the [oVirt](http://ovirt.org) project.
 
 ## Usage
 
-`npm install ovirt-ui-components`
+`yarn add ovirt-ui-components` or `npm install ovirt-ui-components`
 
 ```javascript
 import { MyComponent } from 'ovirt-ui-components'
@@ -21,12 +21,12 @@ ReactDOM.render(
 To facilitate rapid development with instant feedback a *showcase* application for development
 is provided in the `/showcase` directory.
 
-`npm start` will run a `webpack-dev-server` with live reloading of
+`yarn start` will run a `webpack-dev-server` with live reloading of
 all components that serves this showcase application.
 
 ## Build
 
-To get production build run `npm run build`. This will produce the file `ovirt-ui-components.js` containing *all*
+To get production build run `yarn run build`. This will produce the file `ovirt-ui-components.js` containing *all*
 oVirt UI Components. This file is a non-minified UMD module intended to be used in a target **host** application.
 
 ## Host Applications
