@@ -1,5 +1,3 @@
-export { default as Dummy } from './components/Dummy'
-
 export { default as VmsList } from './components/VmsList'
 
 export { default as VmIcon } from './components/VmIcon'
@@ -16,7 +14,6 @@ export * from './helpers'
 
 export * from './actions'
 
-export { default as DummyReducer } from './reducers/dummy'
 export { default as ConfigReducer } from './reducers/config'
 export { default as UserMessages } from './reducers/userMessages'
 export { default as VmsReducer } from './reducers/vms'
