@@ -36,23 +36,3 @@ to a large and complex dialog-style components. Due to this there are several re
 in which these components can be used.
 
 TODO: document host app requirements
-
-## Samples
-
-The `samples` directory contains various sample **host** applications created using
-[create-react-app](https://facebook.github.io/react/blog/2016/07/22/create-apps-with-no-configuration.html).
-
-To run a specific sample host app just run
-```bash
-cd dummy-host   # or other sample
-npm install
-npm start
-```
-
-Please note that if you change some components and want to see this change reflected in a sample host application
-you will need to re-run the production build `npm run build` in the root project and then
-```bash
-npm rm ovirt-ui-components
-npm install ../..
-```
-inside the given sample host directory.
