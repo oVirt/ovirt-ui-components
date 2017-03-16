@@ -84,12 +84,12 @@ class VmDetail extends Component {
         <VmActions vm={vm} userMessages={userMessages} />
         <LastMessage vmId={vm.get('id')} userMessages={userMessages} />
         <dl className={style['vm-properties']}>
+          <dt>State</dt>
+          <dd><VmStatusIcon state={vm.get('status')} /> {vm.get('status')}</dd>
           <dt>Description</dt>
           <dd>{vm.get('description')}</dd>
           <dt>Operating System</dt>
           <dd>{vm.getIn(['os', 'type'])}</dd>
-          <dt>State</dt>
-          <dd><VmStatusIcon state={vm.get('status')} /> {vm.get('status')}</dd>
           <dt><span className='pficon pficon-memory' /> Defined Memory</dt>
           <dd>{userFormatOfBytes(vm.getIn(['memory', 'total'])).str}</dd>
           <dt><span className='pficon pficon-cpu' /> CPUs</dt>
