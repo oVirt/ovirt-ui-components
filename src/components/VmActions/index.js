@@ -106,12 +106,18 @@ const VmActions = ({ vm, isOnCard = false, onGetConsole, onShutdown, onRestart, 
     confirmText: 'Suspend?',
     cancelText: 'Cancel',
   }
-
+  let consoleProtocol = ''
+  if (vm.get('consoles').size) {
+    consoleProtocol = 'Open '
+    consoleProtocol += (vm.get('consoles').find(c => c.get('protocol') === 'spice') ||
+      vm.get('consoles').get(0)).get('protocol').toUpperCase()
+    consoleProtocol += ' Console'
+  }
   return (
     <div className={isOnCard ? 'card-pf-items text-center' : style['left-padding']}>
       <EmptyAction state={status} isOnCard={isOnCard} />
       <Button isOnCard={isOnCard} actionDisabled={!canConsole(status) || vm.getIn(['actionInProgress', 'getConsole'])}
-        className='pficon pficon-screen' tooltip='Get default console' onClick={onGetConsole} />
+        className='pficon pficon-screen' tooltip={consoleProtocol} onClick={onGetConsole} />
       <Button isOnCard={isOnCard} actionDisabled={!canShutdown(status) || vm.getIn(['actionInProgress', 'shutdown'])}
         className='fa fa-power-off' tooltip='Shut down the VM' onClick={onShutdown} confirmRequired={confirmShutdown} />
       <Button isOnCard={isOnCard} actionDisabled={!canRestart(status) || vm.getIn(['actionInProgress', 'restart'])}
