@@ -96,6 +96,8 @@ function vms (state, action) {
       return state.setIn(['vms', action.payload.vmId, 'actionInProgress', action.payload.name], action.payload.started)
     case 'SET_VM_CONSOLES':
       return state.setIn(['vms', action.payload.vmId, 'consoles'], Immutable.fromJS(action.payload.consoles))
+    case 'SET_VM_SESSIONS':
+      return state.setIn(['vms', action.payload.vmId, 'sessions'], Immutable.fromJS(action.payload.sessions))
     case 'LOGOUT': // see the config() reducer
       return state.set('vms', Immutable.fromJS({}))
     case 'SET_LOAD_IN_PROGRESS':

@@ -204,3 +204,13 @@ export function setVmConsoles ({ vmId, consoles }) {
     },
   }
 }
+
+export function setVmSessions ({ vmId, sessions }) {
+  return {
+    type: 'SET_VM_SESSIONS',
+    payload: {
+      vmId,
+      sessions,
+    },
+  }
+}
