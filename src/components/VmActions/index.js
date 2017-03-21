@@ -108,10 +108,9 @@ const VmActions = ({ vm, isOnCard = false, onGetConsole, onShutdown, onRestart, 
   }
   let consoleProtocol = ''
   if (vm.get('consoles').size) {
-    consoleProtocol = 'Open '
-    consoleProtocol += (vm.get('consoles').find(c => c.get('protocol') === 'spice') ||
+    const protocol = (vm.get('consoles').find(c => c.get('protocol') === 'spice') ||
       vm.get('consoles').get(0)).get('protocol').toUpperCase()
-    consoleProtocol += ' Console'
+    consoleProtocol = `Open ${protocol} Console`
   }
   return (
     <div className={isOnCard ? 'card-pf-items text-center' : style['left-padding']}>
