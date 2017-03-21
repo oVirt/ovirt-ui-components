@@ -107,9 +107,10 @@ const VmActions = ({ vm, isOnCard = false, onGetConsole, onShutdown, onRestart, 
     cancelText: 'Cancel',
   }
   let consoleProtocol = ''
-  if (vm.get('consoles').size) {
-    const protocol = (vm.get('consoles').find(c => c.get('protocol') === 'spice') ||
-      vm.get('consoles').get(0)).get('protocol').toUpperCase()
+  if (!vm.get('consoles').isEmpty()) {
+    const vConsole = vm.get('consoles').find(c => c.get('protocol') === 'spice') ||
+      vm.getIn(['consoles', 0])
+    const protocol = vConsole.get('protocol').toUpperCase()
     consoleProtocol = `Open ${protocol} Console`
   }
   return (
