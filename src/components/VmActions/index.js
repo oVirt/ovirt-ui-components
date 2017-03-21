@@ -107,11 +107,18 @@ const VmActions = ({ vm, isOnCard = false, onGetConsole, onShutdown, onRestart, 
     cancelText: 'Cancel',
   }
 
+  let consoleStatus = 'Get default console'
+
+  if (vm.get('sessions') &&
+    !(vm.get('sessions').filter(c => c.get('consoleUser')).isEmpty())) {
+    consoleStatus = 'Console in use'
+  }
+
   return (
     <div className={isOnCard ? 'card-pf-items text-center' : style['left-padding']}>
       <EmptyAction state={status} isOnCard={isOnCard} />
       <Button isOnCard={isOnCard} actionDisabled={!canConsole(status) || vm.getIn(['actionInProgress', 'getConsole'])}
-        className='pficon pficon-screen' tooltip='Get default console' onClick={onGetConsole} />
+        className='pficon pficon-screen' tooltip={consoleStatus} onClick={onGetConsole} />
       <Button isOnCard={isOnCard} actionDisabled={!canShutdown(status) || vm.getIn(['actionInProgress', 'shutdown'])}
         className='fa fa-power-off' tooltip='Shut down the VM' onClick={onShutdown} confirmRequired={confirmShutdown} />
       <Button isOnCard={isOnCard} actionDisabled={!canRestart(status) || vm.getIn(['actionInProgress', 'restart'])}
