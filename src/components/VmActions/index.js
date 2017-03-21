@@ -109,7 +109,8 @@ const VmActions = ({ vm, isOnCard = false, onGetConsole, onShutdown, onRestart, 
 
   let consoleStatus = 'Get default console'
 
-  if (vm.get('sessions') && vm.get('sessions').filter(c => c.get('consoleUser')).size) {
+  if (vm.get('sessions') &&
+    !(vm.get('sessions').filter(c => c.get('consoleUser')).isEmpty())) {
     consoleStatus = 'Console in use'
   }
 
