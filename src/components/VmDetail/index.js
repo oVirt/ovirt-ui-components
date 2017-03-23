@@ -3,8 +3,8 @@ import { connect } from 'react-redux'
 
 import style from './style.css'
 
-import { userFormatOfBytes } from '../../helpers'
-import { getConsole } from '../../actions'
+import { userFormatOfBytes, isWindows } from '../../helpers'
+import { getConsole, getRDP } from '../../actions'
 import { canConsole } from '../../vm-status'
 
 import VmIcon from '../VmIcon'
@@ -39,7 +39,7 @@ LastMessage.propTypes = {
   userMessages: PropTypes.object.isRequired,
 }
 
-const VmConsoles = ({ vm, onConsole }) => {
+const VmConsoles = ({ vm, onConsole, onRDP }) => {
   return (
     <dd>
       {canConsole(vm.get('status')) ? vm.get('consoles').map(c => (
@@ -47,12 +47,20 @@ const VmConsoles = ({ vm, onConsole }) => {
           {c.get('protocol').toUpperCase()}
         </a>
       )) : ''}
+      {
+        canConsole(vm.get('status')) && isWindows(vm.getIn(['os', 'type']))
+        ? (<a href='#' key={vm.get('id')} onClick={onRDP} className={style['left-delimiter']}>
+          RDP
+        </a>)
+        : ''
+      }
     </dd>
   )
 }
 VmConsoles.propTypes = {
   vm: PropTypes.object.isRequired,
   onConsole: PropTypes.func.isRequired,
+  onRDP: PropTypes.func.isRequired,
 }
 
 class VmDetail extends Component {
@@ -62,7 +70,7 @@ class VmDetail extends Component {
   }
 
   render () {
-    const { vm, icons, userMessages, onConsole } = this.props
+    const { vm, icons, userMessages, onConsole, onRDP } = this.props
 
     if (!vm) {
       return null
@@ -97,7 +105,7 @@ class VmDetail extends Component {
           <dt><span className='pficon pficon-network' /> Address</dt>
           <dd>{vm.get('fqdn')}</dd>
           <dt><span className='pficon pficon-screen' /> Console</dt>
-          <VmConsoles vm={vm} onConsole={onConsole} />
+          <VmConsoles vm={vm} onConsole={onConsole} onRDP={onRDP} />
           <dt><span className='fa fa-database' /> Disks&nbsp;
             <small>
               ({hasDisks
@@ -114,17 +122,21 @@ class VmDetail extends Component {
 }
 VmDetail.propTypes = {
   vm: PropTypes.object,
+  config: PropTypes.object,
   icons: PropTypes.object.isRequired,
   userMessages: PropTypes.object.isRequired,
   onConsole: PropTypes.func.isRequired,
+  onRDP: PropTypes.func.isRequired,
 }
 
 export default connect(
   (state) => ({
     icons: state.icons,
     userMessages: state.userMessages,
+    config: state.config,
   }),
-  (dispatch) => ({
+  (dispatch, { vm, config }) => ({
     onConsole: ({ vmId, consoleId }) => dispatch(getConsole({ vmId, consoleId })),
+    onRDP: () => dispatch(getRDP({ vmName: vm.get('name'), username: config.getIn(['user', 'name']) })),
   })
 )(VmDetail)

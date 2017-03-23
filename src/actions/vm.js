@@ -67,6 +67,16 @@ export function getConsole ({ vmId, consoleId }) {
   }
 }
 
+export function getRDP ({ vmName, username }) {
+  return {
+    type: 'GET_RDP_VM',
+    payload: {
+      vmName,
+      username,
+    },
+  }
+}
+
 export function suspendVm ({ vmId }) {
   return {
     type: 'SUSPEND_VM',
