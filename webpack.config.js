@@ -28,9 +28,5 @@ module.exports = {
   },
   externals: [
     external('React', 'react'),
-    external('ReactDOM', 'react-dom'),
-    external('ReactRedux', 'react-redux'),
-    external('Redux', 'redux'),
-    external('ReduxSaga', 'redux-saga'),
   ],
 }
