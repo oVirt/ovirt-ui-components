@@ -138,3 +138,7 @@ export function fileDownload ({ data, fileName = 'myFile.dat', mimeType = 'appli
     }
   }
 }
+
+export function isWindows (name) {
+  return name.toLowerCase().indexOf('windows') > -1
+}
