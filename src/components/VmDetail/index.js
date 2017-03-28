@@ -122,7 +122,7 @@ class VmDetail extends Component {
 }
 VmDetail.propTypes = {
   vm: PropTypes.object,
-  config: PropTypes.object,
+  config: PropTypes.object.isRequired,
   icons: PropTypes.object.isRequired,
   userMessages: PropTypes.object.isRequired,
   onConsole: PropTypes.func.isRequired,
@@ -133,10 +133,9 @@ export default connect(
   (state) => ({
     icons: state.icons,
     userMessages: state.userMessages,
-    config: state.config,
   }),
   (dispatch, { vm, config }) => ({
     onConsole: ({ vmId, consoleId }) => dispatch(getConsole({ vmId, consoleId })),
-    onRDP: () => dispatch(getRDP({ vmName: vm.get('name'), username: config.getIn(['user', 'name']) })),
+    onRDP: () => dispatch(getRDP({ vmName: vm.get('name'), username: config.getIn([ 'user', 'name' ]) })),
   })
 )(VmDetail)
