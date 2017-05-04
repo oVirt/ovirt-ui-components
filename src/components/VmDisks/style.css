@@ -1,6 +1,7 @@
 .disks-ul {
     list-style-type: none;
     display: inline;
+    padding: 0;
 }
 
 .smaller {
