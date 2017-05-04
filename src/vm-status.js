@@ -18,6 +18,10 @@ export function canConsole (state) {
   return state && (state === 'up' || state === 'powering_up' || state === 'powering_down' || state === 'paused' || state === 'migrating' || state === 'reboot_in_progress' || state === 'saving_state')
 }
 
+export function canRemove (state) {
+  return state && (state === 'down')
+}
+
 /*
  public enum VmStatus {
  UNASSIGNED,
