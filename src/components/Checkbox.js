@@ -1,16 +1,31 @@
 import React, { PropTypes } from 'react'
 
-const Checkbox = ({ checked, label, onClick }) => {
-  const onChange = (event) => {
-    onClick(event.target.checked)
+class Checkbox extends React.Component {
+  constructor (props) {
+    super(props)
+
+    this.state = {
+      checked: !!props.checked,
+    }
+
+    this.onChange = this.onChange.bind(this)
   }
 
-  return (
-    <label className={`styled-checkbox ${checked && 'checked'}`}>
-      <input type='checkbox' onChange={onChange} checked={checked} />
-      <span>{label}</span>
-    </label>
-  )
+  onChange (event) {
+    this.setState({ checked: !this.state.checked })
+    this.props.onClick(event.target.checked)
+  }
+
+  render () {
+    const { label } = this.props
+
+    return (
+      <label className={`styled-checkbox ${this.state.checked && 'checked'}`}>
+        <input type='checkbox' onChange={this.onChange} checked={this.state.checked} />
+        <span>{label}</span>
+      </label>
+    )
+  }
 }
 
 Checkbox.propTypes = {
