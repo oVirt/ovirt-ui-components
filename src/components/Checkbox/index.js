@@ -20,16 +20,16 @@ class Checkbox extends React.Component {
   }
 
   render () {
-    const { label, labelExtraStyle } = this.props
+    const { label, labelExtraStyle, order } = this.props
 
     return (
         <div className={style['checkbox']}>
           <label className={labelExtraStyle}>
+            {label}
             <input type='checkbox' onChange={this.onChange} checked={this.state.checked} />
-              <span className={style['cr']}>
-                <i className={`${style['cr-icon']} fa fa-check`} />
-              </span>
-              {label}
+            <span className={`${style['cr']} ${order === 'reversed' ? style['right'] :  style['left']}`}>
+              <i className={`${style['cr-icon']} fa fa-check`}/>
+            </span>
           </label>
         </div>
     )
@@ -41,6 +41,7 @@ Checkbox.propTypes = {
   label: PropTypes.string.isRequired,
   labelExtraStyle: PropTypes.string,
   onClick: PropTypes.func.isRequired,
+  order: PropTypes.string,
 }
 
 export default Checkbox

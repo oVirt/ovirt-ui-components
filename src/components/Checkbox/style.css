@@ -11,11 +11,22 @@
     border-radius: .25em;
     width: 1.3em;
     height: 1.3em;
+
+    font-size: smaller;
+    margin-top: 5px;
+}
+
+.left {
     float: left;
     margin-right: .5em;
 }
 
-.checkbox .cr .cr-icon {
+.right{
+    float: right;
+    margin-left: .5em;
+}
+
+.cr-icon {
     position: absolute;
     font-size: .8em;
     line-height: 0;
