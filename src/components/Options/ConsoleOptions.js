@@ -34,7 +34,11 @@ class ConsoleOptions extends React.Component {
       <div className={classes}>
         <div className='row' style={{marginLeft: 0}}>
           <div className='col-xs-12'>
-            <Checkbox checked={options.autoConnect || false} onClick={this.onChangeOptions('autoConnect')} label='Connect automatically' />
+            <Checkbox checked={options.autoConnect || false}
+              onClick={this.onChangeOptions('autoConnect')}
+              labelExtraStyle={style['console-checkbox-option']}
+              order='reversed'
+              label='Connect automatically' />
           </div>
         </div>
       </div>
