@@ -24,10 +24,16 @@ VmDisk.propTypes = {
   disk: PropTypes.object.isRequired,
 }
 
-const VmDisks = ({ disks }) => {
+const VmDisks = ({ disks, open }) => {
   if (disks && !disks.isEmpty()) {
+    let classes = style['disks-ul']
+    
+    if (open) {
+      classes += ` ${style['open-disks']}`
+    }
+    
     return (
-      <ul className={style['disks-ul']}>
+      <ul className={classes}>
         {disks.map(disk => <VmDisk disk={disk} key={disk.get('id')} />)}
       </ul>
     )
@@ -36,6 +42,7 @@ const VmDisks = ({ disks }) => {
 }
 VmDisks.propTypes = {
   disks: PropTypes.object,
+  open: PropTypes.bool,
 }
 
 export default VmDisks
