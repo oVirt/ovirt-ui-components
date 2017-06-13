@@ -8,6 +8,15 @@
  * @returns {*}
  */
 export function userFormatOfBytes (number, suffix) {
+  const buildRetVal = (number, suffix) => {
+    const rounded = number.toFixed(1)
+    return {
+      str: `${rounded} ${suffix}`,
+      rounded,
+      number,
+      suffix,
+    }
+  }
   number = number || 0
   const factor = 1024
   const suffixes = [null, 'KiB', 'MiB', 'GiB', 'TiB', 'PiB', 'EiB', 'ZiB']
@@ -18,11 +27,7 @@ export function userFormatOfBytes (number, suffix) {
       const divisor = Math.pow(factor, i)
       number = number / divisor
 
-      return {
-        str: `${number} ${suffix}`,
-        number: Math.round(number).toFixed(1),
-        suffix,
-      }
+      return buildRetVal(number, suffix)
     }
   }
 
@@ -39,9 +44,5 @@ export function userFormatOfBytes (number, suffix) {
     divisor *= factor
   }
 
-  return {
-    str: `${number} ${suffix}`,
-    number: Math.round(number).toFixed(1),
-    suffix,
-  }
+  return buildRetVal(number, suffix)
 }
