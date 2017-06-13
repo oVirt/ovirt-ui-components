@@ -15,19 +15,19 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/matobet/ovirt-ui-components.git"
+    "url": "git+https://github.com/oVirt/ovirt-ui-components.git"
   },
   "keywords": [
     "oVirt",
     "UI",
     "Components"
   ],
-  "author": "Martin Betak",
+  "author": "Marek Libra",
   "license": "Apache-2.0",
   "bugs": {
-    "url": "https://github.com/matobet/ovirt-ui-components/issues"
+    "url": "https://github.com/oVirt/ovirt-ui-components/issues"
   },
-  "homepage": "https://github.com/matobet/ovirt-ui-components#readme",
+  "homepage": "https://github.com/oVirt/ovirt-ui-components#readme",
   "devDependencies": {
     "babel-cli": "~6.18.0",
     "babel-core": "~6.18.0",
