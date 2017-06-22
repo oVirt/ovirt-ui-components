@@ -25,9 +25,9 @@ const VmStatusIcon = ({ state }) => {
     case 'down':
       return <Icon className='fa fa-power-off' tooltip='The VM is down.' />
     case 'paused':
-      return <Icon className='pficon pficon-pause' tooltip='The VM is paused.' />
+      return <Icon className='fa fa-pause' tooltip='The VM is paused.' />
     case 'suspended':
-      return <Icon className='fa fa-pause' tooltip='The VM is suspended.' />
+      return <Icon className='fa fa-moon-o' tooltip='The VM is suspended.' />
     case 'powering_down':
       return <Icon className='fa fa-angle-double-down' tooltip='The VM is going down.' />
     case 'not_responding':
