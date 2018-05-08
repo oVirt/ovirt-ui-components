@@ -9,9 +9,9 @@
   "scripts": {
     "build": "webpack",
     "build:watch": "webpack --watch",
-    "prebuild": "npm run test",
+    "prebuild": "yarn run test",
     "test": "jest --no-watchman",
-    "prepublish": "npm run build"
+    "prepublish": "yarn run build"
   },
   "repository": {
     "type": "git",

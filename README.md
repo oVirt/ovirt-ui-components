@@ -18,15 +18,12 @@ ReactDOM.render(
 
 ## Development
 
-To facilitate rapid development with instant feedback a *showcase* application for development
-is provided in the `/showcase` directory.
-
 `yarn start` will run a `webpack-dev-server` with live reloading of
 all components that serves this showcase application.
 
 ## Build
 
-To get production build run `yarn run build`. This will produce the file `ovirt-ui-components.js` containing *all*
+To get production build run `yarn build`. This will produce the file `ovirt-ui-components.js` containing *all*
 oVirt UI Components. This file is a non-minified UMD module intended to be used in a target **host** application.
 
 ## Host Applications
