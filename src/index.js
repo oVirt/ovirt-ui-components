@@ -1,3 +1,2 @@
-export { default as VmStatusIcon } from './components/VmStatusIcon'
-
+export * from './vm-status'
 export * from './helpers'
