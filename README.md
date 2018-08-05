@@ -1,3 +1,7 @@
+# NOTE: This project is deprecated.
+
+See the https://github.com/patternfly/patternfly-react project.
+
 # oVirt UI Components
 [![Build Status](https://travis-ci.org/matobet/ovirt-ui-components.svg?branch=master)](https://travis-ci.org/matobet/ovirt-ui-components)
 
