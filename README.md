@@ -1,3 +1,7 @@
+# NOTE: This project is deprecated.
+
+See the https://github.com/patternfly/patternfly-react project.
+
 # oVirt UI Components
 
 Please note this project is no longer maintained
